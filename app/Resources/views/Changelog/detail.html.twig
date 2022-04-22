@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    {{ h1 }}
+
+                </h1>
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'flashMessage.html.twig' %}
+
+                <div id="tabs-with-hash" class="nav nav-tabs nav-justified">
+                    {%  for category in categories %}
+                        {% if loop.first %}
+                            <ul>
+                        {% endif %}
+                        <li><a href="#tab-{{ category.id }}">{{ category.title }}</a></li>
+                        {% if loop.last %}
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
+                    {%  for category in categories %}
+                        <div id="tab-{{ category.id }}">
+                            <table class="dataTable table table-striped table-hover table-condensed" width="100%" data-orderfirstcol="desk">
+                                <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Label</th>
+                                    <th>Détail</th>
+                                    <th>Type</th>
+                                    <th>Version</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for article in category.articles %}
+                                    <tr>
+                                        <td data-order="{{ article.date | date('Ymd') }}">{{ article.date | date('d/m/Y') }}</td>
+                                        <td>{{ article.name }}</td>
+                                        <td>{{ article.content|raw }}</td>
+                                        <td>{{ article.type }}</td>
+                                        <td>{{ article.version }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+{#
+                        {% if loop.first %}
+                            <div class="box">
+                            <div class="box-body">
+                        {% endif %}
+                        <div id="tab-{{ category.id }}">
+                            {% for article in category.articles %}
+                                <div class="box box-primary box-solid">
+                                    <div class="box-header with-border">
+                                        <h2 class="box-title">{{ article.name }}</h2>
+                                        <div class="box-tools pull-right">
+                                            <span class="label label-danger">{{ article.type }}</span>
+                                        </div><!-- /.box-tools -->
+                                    </div><!-- /.box-header -->
+                                    <div class="box-body">
+                                        {{ article.content|raw }}
+                                    </div><!-- /.box-body -->
+                                    <div class="box-footer">
+                                        Le : {{ article.date | date('d/m/Y') }}
+                                        <div class="box-tools pull-right">
+
+                                            <span class="label label-primary">{{ article.version }}</span>
+                                        </div><!-- /.box-tools -->
+                                    </div><!-- box-footer -->
+                                </div><!-- /.box -->
+                            {% else %}
+                                <p>Aucune nouveauté actuellement</p>
+                            {% endfor %}
+                        </div><!-- end #tab-{{ category.id }} -->
+                        {% if loop.last %}
+                            </div><!-- end .box-body -->
+
+                            </div><!-- end .box -->
+                        {% endif %}
+                        #}
+                    {% endfor %}
+                </div><!-- end #tabs -->
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

@@ -1,0 +1,150 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <img src="{{ asset('images/hebergement.png') }}" alt="">
+                    {{ h1 }}
+                </h1>
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                {% include 'flashMessage.html.twig' %}
+
+                {% include 'Ndd/Nav/options.html.twig'  with {'active': 'hebergement','ndd':ndd.name, 'type':type,'idagency':idagency,'iduser':iduser} only %}
+
+                <div class="row mt20">
+                    <div class="col-md-3">
+
+
+                        <div class="box box-solid box-default">
+                            <div class="box-header">
+                                <h3 class="box-title">Options</h3>
+
+                            </div>
+
+                            <div class="box-body">
+                                <a
+                                        {% if type=="super_admin" %}
+                                            href="{{ path('add_heber_ndd_super_admin',{'ndd':ndd.name,'idagency':idagency,'iduser':iduser}) }}"
+                                        {% elseif type=="admin" %}
+                                            href="{{ path('add_heber_ndd_admin',{'ndd':ndd.name,'iduser':iduser}) }}"
+                                        {% else %}
+                                            href="{{ path('add_heber_ndd_user',{'ndd':ndd.name}) }}"
+                                        {% endif %}
+                                        class="btn btn-default btn-lgr btn-block btn-lgr-lien {% if wwwExist %}disabled{% endif %}">Lier le domaine<br/> à un serveur personnel GWI</a>
+
+                                <a
+                                        {% if type=="super_admin" %}
+                                            href="{{ path('add_heber_super_admin',{'ndd':ndd.name,'idagency':idagency,'iduser':iduser}) }}"
+                                        {% elseif type=="admin" %}
+                                            href="{{ path('add_heber_admin',{'ndd':ndd.name,'iduser':iduser}) }}"
+                                        {% else %}
+                                            href="{{ path('add_heber_user',{'ndd':ndd.name}) }}"
+                                        {% endif %}
+                                        class="btn btn-default btn-lgr btn-block btn-lgr-plus">Ajouter un sous domaine<br/> à un serveur personnel GWI</a>
+
+
+
+
+
+
+                                <a
+                                        {% if type=="super_admin" %}
+                                            href="{{ path('add_heber_mutu_ndd_super_admin',{'ndd':ndd.name,'idagency':idagency,'iduser':iduser}) }}"
+                                        {% elseif type=="admin" %}
+                                            href="{{ path('add_heber_mutu_ndd_admin',{'ndd':ndd.name,'iduser':iduser}) }}"
+                                        {% else %}
+                                            href="{{ path('add_heber_mutu_ndd_user',{'ndd':ndd.name}) }}"
+                                        {% endif %}
+                                        class="btn btn-default btn-lgr btn-block btn-lgr-lien {% if wwwExist %}disabled{% endif %}">Lier le domaine<br/> à un hébergement mutualisé</a>
+
+
+                                <a
+                                        {% if type=="super_admin" %}
+                                            href="{{ path('add_heber_mutu_super_admin',{'ndd':ndd.name,'idagency':idagency,'iduser':iduser}) }}"
+                                        {% elseif type=="admin" %}
+                                            href="{{ path('add_heber_mutu_admin',{'ndd':ndd.name,'iduser':iduser}) }}"
+                                        {% else %}
+                                            href="{{ path('add_heber_mutu_user',{'ndd':ndd.name}) }}"
+                                        {% endif %}
+                                        class="btn btn-default btn-lgr btn-block btn-lgr-plus">Ajouter un sous domaine<br/> à un hébergement mutualisé
+                                </a>
+
+                            </div><!-- /box-body -->
+                        </div><!-- /.box -->
+                    </div><!-- ./col -->
+                </div><!-- /.row -->
+
+                <table class="dataTable table table-striped table-hover table-condensed" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Vhosts</th>
+                        <th>Nom du serveur</th>
+                        <th>Type</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for v in vhosts %}
+                        <tr>
+                            <td>{{ v.name }}</td>
+                            <td>{% if v.serverName %}
+                                <a
+                                        {% if type=="admin" %}
+                                            href="{{path("instance_admin",{'iduser':iduser,'idinstance':v.serverId})}}"
+                                        {% elseif type=="super_admin" %}
+                                            href="{{path("instance_super_admin",{'idagency':idagency,'iduser':iduser,'idinstance':v.serverId})}}"
+
+                                        {% else %}
+                                            href="{{path("instance_user",{'idinstance':v.serverId})}}"
+
+                                        {% endif %}
+                                >{{ v.serverName }}{% else %}NC{% endif %}
+                                </a></td>
+                            <td>
+                                {% if v.mutualise %}Mutualisé{% else %}Dédié{% endif %}
+                            </td>
+                            <td>
+                                <a
+
+                                        {% if type =="super_admin" %}
+                                            href="{{path("delete_vhost_super_admin",{'idagency':idagency,'iduser':iduser,'ndd':ndd.name,'vhost':v.name})}}"
+                                        {% elseif type=="admin" %}
+                                            href="{{path("delete_vhost_admin",{'iduser':iduser,'ndd':ndd.name,'vhost':v.name})}}"
+                                        {% else %}
+                                            href="{{path("delete_vhost_user",{'ndd':ndd.name,'vhost':v.name})}}"
+                                        {% endif %}
+
+                                        class="btn btn-danger btn-xs"><i class="fa fa-trash" title="Supprimer"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

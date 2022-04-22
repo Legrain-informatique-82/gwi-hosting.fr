@@ -1,0 +1,23 @@
+<ul id="nav-ndd" class="nav nav-tabs nav-justified">
+
+    {% if type =='super_admin' %}
+        <li role="presentation" {% if active == 'general' %} class="active" {% endif %}><a href="{{ path('ndd_super_admin',{'idagency':idagency,'iduser':iduser,'ndd':ndd}) }}">Général</a></li>
+        <li role="presentation" {% if active == 'email' %} class="active" {% endif %}><a href=" {{ path("list_emails_for_domain_super_admin",{'idagency':idagency,"iduser": iduser ,'ndd':ndd}) }}">Boites e-mail</a></li>
+        <li role="presentation" {% if active == 'intervention' %} class="active" {% endif %}><a href=" {{ path("intervention_super_admin",{'idagency':idagency,"iduser": iduser ,'ndd':ndd}) }}">Interventions</a></li>
+
+        <li role="presentation" {% if active == 'hebergement' %} class="active" {% endif %}><a href="{{ path("hebergement_super_admin",{'idagency':idagency,"iduser": iduser ,'ndd':ndd}) }}">Hébergement</a></li>
+    {% elseif type =='admin' %}
+
+        <li role="presentation" {% if active == 'general' %} class="active" {% endif %}><a href="{{ path('ndd_admin',{'iduser':iduser,'ndd':ndd}) }}">Général</a></li>
+        <li role="presentation" {% if active == 'email' %} class="active" {% endif %}><a href=" {{ path("list_emails_for_domain_admin",{"iduser": iduser ,'ndd':ndd}) }}">Boites e-mail</a></li>
+        <li role="presentation" {% if active == 'intervention' %} class="active" {% endif %}><a href=" {{ path("intervention_admin",{"iduser": iduser ,'ndd':ndd}) }}">Interventions</a></li>
+
+        <li role="presentation" {% if active == 'hebergement' %} class="active" {% endif %}><a href="{{ path("hebergement_admin",{"iduser": iduser ,'ndd':ndd}) }}">Hébergement</a></li>
+    {% else %}
+        <li role="presentation" {% if active == 'general' %} class="active" {% endif %}><a href="{{ path('ndd_user',{'ndd':ndd}) }}">Général</a></li>
+        <li role="presentation" {% if active == 'email' %} class="active" {% endif %}><a href=" {{ path("list_emails_for_domain_user",{'ndd':ndd}) }}">Boites e-mail</a></li>
+        <li role="presentation" {% if active == 'intervention' %} class="active" {% endif %}><a href=" {{ path("intervention_user",{'ndd':ndd}) }}">Interventions</a></li>
+
+        <li role="presentation" {% if active == 'hebergement' %} class="active" {% endif %}><a href="{{ path("hebergement_user",{'ndd':ndd}) }}">Hébergement</a></li>
+    {% endif %}
+</ul>

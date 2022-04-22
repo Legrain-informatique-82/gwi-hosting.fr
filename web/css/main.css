@@ -1,0 +1,303 @@
+.btn.btn-default{
+    color:#000!important;
+}
+
+.navbar-nav>.notifications-menu>.dropdown-menu>li .menu>li>p{
+    color: #444;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 10px;
+}
+
+
+
+.mt20{
+    margin-top:20px;
+}
+
+.custom-combobox {
+    position: relative;
+    display: inline-block;
+}
+.custom-combobox-toggle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-left: -1px;
+    padding: 0;
+}
+.custom-combobox-input {
+    margin: 0;
+    padding: 5px 10px;
+}
+
+.ui-autocomplete{position:absolute;top:100%;left:0;z-index:1000;float:left;display:none;min-width:160px;_width:160px;padding:4px 0;margin:2px 0 0 0;list-style:none;background-color:#ffffff;border-color:#ccc;border-color:rgba(0, 0, 0, 0.2);border-style:solid;border-width:1px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);-moz-box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);-webkit-background-clip:padding-box;-moz-background-clip:padding;background-clip:padding-box;*border-right-width:2px;*border-bottom-width:2px}.ui-autocomplete .ui-menu-item > a.ui-corner-all{display:block;padding:3px 15px;clear:both;font-weight:normal;line-height:18px;color:#555555;white-space:nowrap}.ui-autocomplete .ui-menu-item > a.ui-corner-all.ui-state-hover,.ui-autocomplete .ui-menu-item > a.ui-corner-all.ui-state-active{color:#ffffff;text-decoration:none;background-color:#0088cc;border-radius:0px;-webkit-border-radius:0px;-moz-border-radius:0px;background-image:none}
+
+
+section.content{
+    min-height: 800px;
+}
+
+
+
+
+
+
+
+
+.content-header>.breadcrumb{
+   /* float: none;
+    position: relative;
+    padding-left: 15px;*/
+    float: none;
+    position: absolute;
+    padding-left: 15px;
+    top: 0;
+    left: 0;
+    padding-bottom: 15px;
+}
+.content-header h1{
+    margin-top: 10px;
+}
+/********************
+* Nouveau style graphique
+*********************/
+h2{
+    background: #d2d6de;
+    color:#444;
+    padding:7px;
+    font-size: 1.5em;
+}
+.skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side {
+    background-color: #b6b6b6;
+}
+
+.skin-blue .sidebar-menu>li.header {
+    color: #fff;
+    background: #7b7b7b;
+}
+.skin-blue .sidebar a {
+    color: #fff;
+}
+
+.skin-blue .sidebar-menu>li:hover>a, .skin-blue .sidebar-menu>li.active>a {
+    background: #908f8f;
+}
+.skin-blue .sidebar-menu>li>.treeview-menu {
+    background: #a6a5a5;
+}
+.skin-blue .treeview-menu>li.active>a, .skin-blue .treeview-menu>li>a:hover {
+    color: #3a3a3a;
+    font-weight: 700;
+}
+.skin-blue .treeview-menu>li>a {
+    color: #fff;
+}
+.table-striped>tbody>tr:nth-of-type(odd) {
+    /*background-color: #d6eff4;*/
+}
+
+.skin-blue .main-header .logo {
+    background-color: #fff;
+
+}
+.skin-blue .main-header .logo:hover {
+    background-color: #fff;
+}
+.navbar-nav>.notifications-menu>.dropdown-menu, .navbar-nav>.messages-menu>.dropdown-menu, .navbar-nav>.tasks-menu>.dropdown-menu {
+    width: 700px;
+}
+
+.navbar-nav>.notifications-menu>.dropdown-menu>li .menu>li,
+.navbar-nav>.messages-menu>.dropdown-menu>li .menu>li,
+.navbar-nav>.tasks-menu>.dropdown-menu>li .menu>li {
+    display: block;
+    white-space: nowrap;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.navbar-nav>.notifications-menu>.dropdown-menu>li .menu>li>a,
+.navbar-nav>.messages-menu>.dropdown-menu>li .menu>li>a,
+.navbar-nav>.tasks-menu>.dropdown-menu>li .menu>li>a {
+    border-bottom: none;
+}
+
+#nav-ndd.nav-tabs.nav-justified {
+    background: #cee8ea;
+}
+
+
+
+
+
+
+/* @media */
+
+
+
+
+@media (min-width: 980px) {
+    .row-eq-height {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display:  flex;
+
+    }
+    .flex{
+        display: flex;
+    }
+}
+@media (min-width: 1200px) {
+
+
+}
+@media (max-width: 979px) {}
+@media (min-width: 768px) and (max-width: 979px) {}
+@media (max-width: 767px) {
+    .content-header h1 {
+        margin-top: 40px;
+    }
+}
+@media (max-width: 480px) {
+    .content-header h1 {
+        margin-top: 40px;
+    }
+}
+
+table.dataTable thead th, table.dataTable thead td,table.dataTable.no-footer {
+    border-bottom: 1px solid #7b7b7b;
+}
+
+.btn-lgr,.btn-lgr-add-mailbox,.btn-lgr-forward-mailbox,.btn-lgr-reboot,.btn-server-renew,
+.btn-options-server,.btn-lgr-clients,.btn-lgr-domaine,.btn-lgr-server,.btn-lgr-euro,.btn-lgr-bug
+{
+    position: relative;
+}
+.btn-lgr:before,.btn-lgr-add-mailbox:before,.btn-lgr-forward-mailbox:before,.btn-lgr-reboot:before,
+.btn-server-renew:before,.btn-options-server:before,.btn-lgr-clients:before,.btn-lgr-domaine:before,.btn-lgr-server:before,.btn-lgr-euro:before,.btn-lgr-bug:before
+{
+    content:' ';
+    position: absolute;
+    left:0;
+    top:0;
+
+    margin:0;
+    height: 100%;
+    width: 32px;
+}
+.btn-lgr{
+    padding-left:50px;
+}
+.btn-lgr-add-mailbox:before{
+    background: #3c8dbc url('../images/btn/ajouter-boite-mail.jpg') no-repeat center left;
+}
+.btn-lgr-forward-mailbox:before{
+    background: #3c8dbc url('../images/btn/redirection-email.jpg') no-repeat center left;
+}
+.btn-lgr-reboot:before{
+     background: #3c8dbc url('../images/btn/redemarrer-serveur.jpg') no-repeat center left;
+ }
+.btn-server-renew:before,
+.btn-lgr-server:before{
+     background: #3c8dbc url('../images/btn/renouveler-serveur.jpg') no-repeat center left;
+ }
+.btn-options-server:before{
+     background: #3c8dbc url('../images/btn/modifier-option-serveur.jpg') no-repeat center left;
+ }
+.btn-lgr-clients:before{
+     background: #3c8dbc url('../images/btn/users.jpg') no-repeat center left;
+ }
+.btn-lgr-domaine:before{
+     background: #3c8dbc url('../images/btn/domaine.jpg') no-repeat center left;
+ }
+.btn-lgr-euro:before{
+     background: #05bf54 url('../images/btn/euro-vert.jpg') no-repeat center left;
+ }
+.btn-lgr-bug:before{
+     background: #3c8dbc url('../images/btn/bug.jpg') no-repeat center left;
+ }
+.btn-lgr-add-client:before{
+     background: #3c8dbc url('../images/btn/ajouter1client.jpg') no-repeat center left;
+ }
+.btn-lgr-buy-ndd:before{
+     background: #05bf54 url('../images/btn/ajouter1domaine.jpg') no-repeat center left;
+ }
+.btn-lgr-renouveler-domaine:before{
+     background: #05bf54 url('../images/btn/renouveler1domaine.jpg') no-repeat center left;
+ }
+.btn-lgr-buy-server:before{
+     background: #05bf54 url('../images/btn/ajouter1serveur.jpg') no-repeat center left;
+ }
+.btn-lgr-add-gestionnaire:before{
+    background: #3c8dbc url('../images/btn/gestionnaire.png') no-repeat center left;
+}
+.btn-lgr-add-agency:before{
+    background: #3c8dbc url('../images/btn/agence.png') no-repeat center left;
+}
+.btn-lgr-sauver:before,.btn-lgr-save:before{
+    background: #3c8dbc url('../images/btn/sauvegarder.jpg') no-repeat center left;
+}
+
+.btn-lgr-lien:before{
+    background: #3c8dbc url('../images/btn/lier-bleu.jpg') no-repeat center left;
+}
+.btn-lgr-gerer:before{
+    background: #3c8dbc url('../images/btn/gerer2.png') no-repeat center left;
+}
+.btn-lgr-plus:before{
+    background: #3c8dbc url('../images/btn/ajou-sous-domaine.jpg') no-repeat center left;
+}
+.btn-lgr-gerer-mail:before{
+    background: #3c8dbc url('../images/btn/gerer-mail.jpg') no-repeat center left;
+}
+
+
+.btn-lgr-add-to-cart:before{
+    background: #05bf54 url('../images/btn/ajouter-panier.png') no-repeat center left;
+}
+
+#chartAchats{
+    width: 100%;
+}
+
+.box.box-solid.box-dark-grey>.box-header {
+    color: #fff;
+    background: #7b7b7b;
+    background-color: #7b7b7b;
+}
+
+.cart-elem{
+    position:relative;
+    /*border:1px solid #000;*/
+    background:#3c8dbc ;
+    color:#fff;
+    margin-top:10px;
+    padding: 0!important;
+}
+.cart-elem i{
+    display: inline-flex;
+    padding: 0 5px;
+}
+.cart-elem span{
+    background: #fff;
+    color: #000;
+    padding: 9px;
+    display: inline-flex;
+
+}
+
+textarea.bigtextarea{
+    height: 500px;
+}
+
+.dotRight{
+    position: relative;
+}
+.dotRight:after{
+    position: absolute;
+    right:0;
+    top:0;
+    content: ' . ';
+}

@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <img src="{{ asset('images/liste.png') }}" alt="">
+                    {{ h1 }}
+
+                </h1>
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'flashMessage.html.twig' %}
+                <div>
+                    <a href="{{ path('add-cgv') }}" class="btn btn-default btn-lgr btn-lgr-plus">Ajouter une CGU</a>
+                </div>
+                <div class="mt20">
+                    <table class="dataTable table table-striped table-hover table-condensed" width="100%">
+                        <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>url</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for cgu in listCgus %}
+                            <tr>
+                                <td>{{ cgu.name }}</td>
+                                <td>{{ cgu.url }}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="{{ path("update-cgv",{'idcgu':cgu.id}) }}" class="btn btn-warning" title="Modifier"><i class="fa fa-cogs"></i></a>
+                                        <a href="{{ path("remove-cgv",{'idcgu':cgu.id}) }}" class="btn btn-danger" title="Supprimer"><i class="fa fa-trash"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

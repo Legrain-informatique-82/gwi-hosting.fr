@@ -1,0 +1,16 @@
+{% extends 'Contact/Fancybox/base.html.twig' %}
+
+{% block body %}
+    <a href="javascript:parent.jQuery.fancybox.close();">Close iframe parent</a>
+
+    </div>
+    <script type="text/javascript">
+
+
+        $(function () {
+
+            // On ferme l'iframe
+            parent.jQuery.fancybox.close();
+        });
+    </script>
+{% endblock %}

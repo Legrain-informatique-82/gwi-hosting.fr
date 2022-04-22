@@ -1,0 +1,99 @@
+{% extends 'Public/base.html.twig' %}
+
+
+{% block body %}
+
+    <div class="container">
+        {% include 'Public/header.html.twig' %}
+    </div><!-- /.container -->
+
+    <div id="content" class="container">
+        {% include 'flashMessage.html.twig' %}
+
+
+        <h1>
+            <img src="{{ asset('images/serveur.png') }}" alt="">
+            Acheter un hébergement mutualisé
+        </h1>
+
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+        {{ form_end(form) }}
+
+        <h2>Détail de l'offre sélectionnée</h2>
+        {% for i in list %}
+            <ul class="jsupd{% if preSelected != i.id %} hide{% endif %} id_{{ i.id }}">
+                <li>Nom de l'offre : {{ i.name }}</li>
+                <li>Prix Ht par mois : {{ i.priceHt }} €/mois</li>
+
+                {% if i.instance.sizeInstance == 's' %}
+                    <li>Détail serveur :
+                        <ul>
+                            <li>RAM : 256Mo</li>
+                            <li>Coeur de processeurs : 1</li>
+                            <li>Processus Php simultanés : 2</li>
+                            <li>Connexion Mysql Simultanées : 16</li>
+                        </ul>
+                    </li>
+
+
+                {% elseif i.instance.sizeInstance == 'm' %}
+                    <li>Détail serveur :
+                        <ul>
+                            <li>RAM : 512Mo</li>
+                            <li>Coeur de processeurs : 2</li>
+                            <li>Processus Php simultanés : 4</li>
+                            <li>Connexion Mysql Simultanées : 32</li>
+                            <li>Compatibilité SSL</li>
+                        </ul>
+                    </li>
+                {% elseif i.instance.sizeInstance == 'l' %}
+                    <li>Détail serveur :
+                        <ul>
+                            <li>RAM : 1024Mo</li>
+                            <li>Coeur de processeurs : 3</li>
+                            <li>Processus Php simultanés : 8</li>
+                            <li>Connexion Mysql Simultanées : 64</li>
+                            <li>Compatibilité SSL</li>
+
+                        </ul>
+                    </li>
+                {% elseif i.instance.sizeInstance == 'xl' %}
+                    <li>Détail serveur :
+                        <ul>
+                            <li>RAM : 4096Mo</li>
+                            <li>Coeur de processeurs : 4</li>
+                            <li>Processus Php simultanés : 16</li>
+                            <li>Connexion Mysql Simultanées : 128</li>
+                            <li>Compatibilité SSL</li>
+                        </ul>
+                    </li>
+                {% elseif i.instance.sizeInstance == 'xxl' %}
+                    <li>Détail serveur :
+                        <ul>
+                            <li>RAM : 16384Mo</li>
+                            <li>Coeur de processeurs : 8</li>
+                            <li>Processus Php simultanés : 32</li>
+                            <li>Connexion Mysql Simultanées : 256</li>
+                            <li>Compatibilité SSL</li>
+                        </ul>
+                    </li>
+                {% endif %}
+
+            </ul>
+            <div class="jsupd{% if preSelected != i.id %} hide{% endif %} id_{{ i.id }}">
+                {{ i.detail }}
+            </div>
+        {% endfor %}
+
+    </div><!-- /.container -->
+
+
+
+    {% include 'Public/footer.html.twig' %}
+
+
+
+
+
+{% endblock %}

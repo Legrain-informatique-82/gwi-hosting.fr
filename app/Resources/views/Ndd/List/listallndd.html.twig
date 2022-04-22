@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <img src="{{ asset('images/liste.png') }}" alt="">
+                    {{ h1 }}
+
+                </h1>
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <a href="{{ path('public-buy-ndd') }}" class="btn btn-default btn-lgr btn-lgr-buy-ndd">Acheter un nom de domaine</a>
+
+                {% include 'flashMessage.html.twig' %}
+
+
+
+
+                <div class="mt20">
+                    {% for ndd in ndds %}
+                        {#affichage en table#}
+                        {% if loop.first %}
+                            <table class="dataTable table table-striped table-hover table-condensed" width="100%">
+                            <thead>
+                            <tr>
+                                <th>Date expiration</th>
+                                <th>Nom</th>
+                                <th>Agence</th>
+                                <th>Utilisateur</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                        {% endif %}
+                        <tr>
+                            <td data-order="{{ ndd.date_registry_end}} " >
+                                {% if ndd.date_registry_end < in2months  %}<strong class="{% if ndd.date_registry_end < today  %}text-danger{% else %}text-primary{% endif %}">{% endif %}
+                                    {{ ndd.date_registry_end | date('d/m/Y') }}
+                                    {% if ndd.date_registry_end < in2months   %}</strong>{% endif %}
+                            </td>
+                            <td>{{ ndd.name }}</td>
+                            <td>{{ ndd.user.agency.name }}</td>
+                            <td>
+                                {{ ndd.user.firstname }} {{ ndd.user.name }}
+                                <br>
+                                {{ ndd.user.codeClient }}
+                            </td>
+                            <td>
+
+                                <div class="btn-group">
+
+                                    {% if afficheProduits %}
+                                        <a href="{{ path("renew_ndd_admin",{'iduser':ndd.user.id,'ndd':ndd.name}) }}" class="btn btn-default" title="Renouveler le domaine"><i class="fa fa-cart-plus"></i></a>
+                                    {% endif %}
+                                    <a class="btn btn-default" href="{{ path('ndd_admin',{'iduser':iduser,'ndd':ndd.name}) }}" title="Gérer"><i class="fa fa-wrench"></i> </a>
+                                    <a href="{{ path("list_emails_for_domain_admin",{"iduser": iduser ,'ndd':ndd.name}) }}" class="btn btn-default" title="Gestion des boites e-mail">
+                                        <i class="fa fa-envelope"></i>
+                                        {% if ndd.services.item is defined %}
+                                            {% if 'mail' in ndd.services.item %}
+                                                <sup class="text-success"><i class="fa fa-circle"></i></sup>
+                                            {% else %}
+                                                <sup><i class="fa fa-circle"></i></sup>
+                                            {% endif %}
+                                        {% else %}
+                                            {% if 'mail' == ndd.services %}
+                                                <sup class="text-success"><i class="fa fa-circle"></i></sup>
+                                            {% else %}
+                                                <sup><i class="fa fa-circle"></i></sup>
+                                            {% endif %}
+                                        {% endif %}
+                                    </a>
+                                    <a href="{{ path('hebergement_admin',{'iduser': ndd.user.id ,'ndd':ndd.name}) }}" class="btn btn-default" title="Gestion de l'hébergement"><i class="fa fa-database"></i></a>
+                                </div>
+
+                            </td>
+                        </tr>
+                        {% if loop.last %}
+                            </tbody>
+                            </table>
+                        {% endif %}
+
+                    {% endfor %}
+                </div>
+
+
+
+
+
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

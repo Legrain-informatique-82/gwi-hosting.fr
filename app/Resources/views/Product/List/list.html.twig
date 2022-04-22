@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <img src="{{ asset('images/liste.png') }}" alt="">
+                   {{ h1 }}
+                </h1>
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                {% include 'flashMessage.html.twig' %}
+
+
+
+
+
+                <table class="dataTable table table-striped table-hover table-condensed" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Nom &amp; prénom</th>
+                        <th>Prix HT grille par défaut (par mois)</th>
+                        <th>Prix réduit HT grille par défaut (par mois)</th>
+                        <th>Tva</th>
+                        <th>Période minimum (en mois)</th>
+                        <th>Catégories</th>
+                        <th>Etat</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for p in products %}
+
+                        <tr>
+                            <td>{{ p.name }} </td>
+                            <td>{{ p.priceHT }}€/mois</td>
+                            <td>{{ p.minPriceHT |default('Pas de prix réduit')}}</td>
+                            <td>{{ p.percentTax*100 }}%</td>
+                            <td>{{ p.minPeriod }}</td>
+                            <td>
+                                {% if p.categories is iterable %}
+                                    <ul class="list-unstyled">
+                                        {% for cat in p.categories %}
+                                            <li>{{ cat.name }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    {{ p.categories.name }}
+                                {% endif %}
+
+                            </td>
+                            <td>{% if p.active %}Actif{% else %}Inactif{% endif %}</td>
+                            <td>
+                                <div class="btn-group">
+                                <a href="{{ path('update-product',{'idproduct':p.id}) }}" class="btn btn-warning" title="Modifier"><i class="fa fa-pencil"></i></a>
+                            {#    <a href="" class="btn btn-primary disabled"><i class="fa fa-euro"></i></a> #}
+                                </div>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+
+
+
+
+
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

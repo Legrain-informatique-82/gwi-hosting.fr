@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    {{ h1 }}
+                </h1>
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'flashMessage.html.twig' %}
+
+
+
+                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                {{ form_errors(form) }}
+                {% for instField in form %}
+                    {% if instField.vars.name != 'submit' and instField.vars.name !='_token' %}
+                        <div class="row">
+                            <div class="col-xs-3">
+                                {#{{ form_row(instField) }}#}
+                                {{ form_label(instField) }}
+                                {{ form_errors(instField) }}
+                            </div>
+                            <div class="col-xs-3">
+                                {{ form_widget(instField) }}
+
+                            </div>
+
+                            <div class="col-xs-6">
+
+                                <p>
+                                    {#<a href="{{ path("fancybox_add_contact",{'idCartLine':instField.vars.name}) }}" class="fancybox fancybox.ajax btn btn-primary ">Creer un contact</a>#}
+
+                                    {% if instField.vars.name in contactsInError %}
+                                        <a href="{{ path("fancybox_complete_contact",{'contactName':instField.vars.value,'ndd':nddParLigne[instField.vars.name] }) }}"  data-fancybox-type="iframe" class="fancybox btn btn-warning ">
+                                            Completer le contact {{ instField.vars.value }}
+                                        </a>
+
+                                    {% endif %}
+                                    <a href="{{ path("fancybox_add_contact",{'idCartLine':instField.vars.name}) }}"  data-fancybox-type="iframe" class="fancybox btn btn-primary ">
+                                        Creer un contact
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <div class="row">
+                    <div class="col-xs-12">
+
+                        {{ form_row(form.submit) }}
+                    </div>
+                </div>
+                {{ form_end(form) }}
+
+
+
+
+
+
+
+
+
+
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

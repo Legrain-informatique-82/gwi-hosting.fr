@@ -1,0 +1,99 @@
+{% extends 'Contact/Fancybox/base.html.twig' %}
+
+{% block body %}
+
+
+    {{ form_start(form2,{'attr': {'id': 'form2'}}) }}
+    {{ form_errors(form2) }}
+    <div id="tabs" data-step="{{ step }}">
+        <ul>
+            <li><a href="#tabs-1" class="clicTab1">Type contact</a></li>
+            <li><a href="#tabs-2" class="clicTab2">Détails</a></li>
+            <li><a href="#tabs-3" class="clicTab3">Utilisateur lié</a></li>
+        </ul>
+        <div id="tabs-1">
+            {{ form_row(form2.type) }}
+           <div class="row">
+               <div class="col-xs-12">
+                   <a id="check-part-1" href="#tabs-2" class="btn btn-primary">Poursuivre</a>
+               </div>
+           </div>
+
+
+        </div>
+        <div id="tabs-2">
+            {{ form_row(form2.companyName) }}
+            {{ form_row(form2.insee) }}
+            {{ form_row(form2.numMarque) }}
+            {{ form_row(form2.numTva) }}
+            {{ form_row(form2.name) }}
+            {{ form_row(form2.firstname) }}
+            {{ form_row(form2.address) }}
+            {{ form_row(form2.zipCode) }}
+            {{ form_row(form2.city) }}
+            {{ form_row(form2.state) }}
+            {{ form_row(form2.phone) }}
+            {{ form_row(form2.fax) }}
+            {{ form_row(form2.cellphone) }}
+            {{ form_row(form2.email) }}
+            <div class="row">
+                <div class="col-xs-6">
+                    <a href="#tabs-1" id="back-to-part-1" class="btn btn-primary">Précédent</a>
+                </div><div class="col-xs-6">
+                    <a id="check-part-2" href="#tabs-3" class="btn-open-tab-3 btn btn-primary">Poursuivre</a>
+                </div>
+            </div>
+
+        </div>
+        <div id="tabs-3">
+            <fieldset>
+                <legend>Choisir un utilisateur dans la liste</legend>
+                {{ form_row(form2.user) }}
+            </fieldset>
+
+
+
+
+    {% if createContactIsPossible %}
+        <fieldset>
+                <legend>Ou, en creer un nouveau</legend>
+
+                {{ form_row(form2.code_client_user) }}
+                {{ form_row(form2.email_user) }}
+                {{ form_row(form2.phone_user) }}
+                {{ form_row(form2.cellphone_user) }}
+                {{ form_row(form2.workphone_user) }}
+                {{ form_row(form2.password_user) }}
+                {{ form_row(form2.name_user) }}
+                {{ form_row(form2.firstname_user) }}
+                {{ form_row(form2.address1_user) }}
+                {{ form_row(form2.address2_user) }}
+                {{ form_row(form2.address3_user) }}
+                {{ form_row(form2.zipcode_user) }}
+                {{ form_row(form2.city_user) }}
+                {{ form_row(form2.company_name_user) }}
+                {{ form_row(form2.num_tva_user) }}
+                {{ form_row(form2.tiersPourTva_user) }}
+                {{ form_row(form2.active_user) }}
+
+            </fieldset>
+        {% endif %}
+            <div class="row">
+                <div class="col-xs-6">
+                    <a href="#tabs-1"  id="back-to-part-2" class="btn btn-primary">Précédent</a>
+                </div>
+                <div class="col-xs-6">
+                    {{ form_row(form2.contact_submit) }}
+                </div>
+            </div>
+
+
+        </div>
+        {{ form_end(form2) }}
+    </div><!-- end tabs -->
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <img src="{{ asset('images/liste.png') }}" alt="">
+                    Liste des gestionnaires d'agences
+                </h1>
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'flashMessage.html.twig' %}
+
+              {#
+                <div class="well">
+                    <p>
+                        <a class="btn btn-primary" href="{{ path("create-users-agency")  }}">
+                            <i class="fa fa-plus"></i> Ajouter un gestionnaire
+                        </a>
+                    </p>
+                </div>
+             #}
+
+                <p>
+                    <a class="btn btn-lgr btn-default btn-lgr-add-gestionnaire" href="{{ path("create-users-agency")  }}">Ajouter un gestionnaire</a>
+                </p>
+
+                <table class="dataTable table table-striped table-hover table-condensed mt20" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Code client</th>
+                        <th>Nom &amp; prénom</th>
+                        <th>Adresse</th>
+                        <th>Téléphone de contact</th>
+                        <th>E-mail de contact</th>
+                        <th>Agence</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.codeClient }}</td>
+                            <td>{{ user.name }} {{ user.firstname }}</td>
+                            <td>{{ user.address1 }}
+                                {% if user.address2 %}<br/>{{ user.address2 }}{% endif %}
+                                {% if user.address3 %}<br/>{{ user.address3 }}{% endif %}
+                                <br/>
+                                {% if user.zipcode != null %}
+                                    {{ user.zipcode.name }}
+                                {% endif %}
+                                {% if user.city != null  %}
+                                    {{ user.city.name }}
+                                {% endif %}
+                            </td>
+                            <td>{{ user.phone }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.agency.name }}</td>
+
+                            <td>
+                                <div class="btn-group">
+                                  <div class="btn-group">
+                                      <a class="btn btn-primary" href="{{ path("list_customer_super_admin",{'idagency':user.agency.id}) }}" title="Clients de cette agence">
+                                          <i class="fa fa-users"></i>
+                                      </a>
+
+                                      <a class="btn btn-default" href="{{ path("customer_super_admin",{'idagency':user.agency.id,'iduser':user.id}) }}" title="Fiche de l'utilisateur">
+                                          <i class="fa fa-user"></i>
+                                      </a>
+                                  </div>
+                                </div>
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+
+
+
+
+
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

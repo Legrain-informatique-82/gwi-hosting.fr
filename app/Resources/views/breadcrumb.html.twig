@@ -1,0 +1,10 @@
+<ol class="breadcrumb">
+    <li><a href="{{  path('homepage' )}}"><i class="fa fa-dashboard"></i> Accueil</a></li>
+    {%  for link in breadcrumb %}
+        {% if loop.last %}
+            <li class="active">{{ link.label }}</li>
+        {% else %}
+            <li><a href="{{ path(link.url,link.param) }}{% if link.anchor is defined  %}{{ link.anchor }}{% endif %}">{{ link.label }}</a></li>
+        {% endif %}
+    {% endfor %}
+</ol>

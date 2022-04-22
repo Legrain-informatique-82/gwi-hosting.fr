@@ -1,0 +1,217 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <img src="{{ asset('images/tableau-de-bord.png') }}" alt="">
+                    Tableau de bord
+                </h1>
+
+
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'flashMessage.html.twig' %}
+                <div class="row row-eq-height">
+
+
+                    {% if is_granted("ROLE_AGENCE") %}
+
+                        <div class="col-md-4 flex">
+                            <div class="box box-solid box-dark-grey">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Mes clients</h3>
+
+                                </div><!-- /.box-header -->
+                                <div class="box-body mt20">
+                                    <a href="{{ path('list_customer_admin') }}" class="btn btn-default btn-block btn-lgr-clients {% if app.user.user.agency.facturationBylegrain is null %}disabled{% endif %}">Mes clients</a>
+                                    <a href="{{ path('add_customer_admin') }}" class="btn btn-block btn-default btn-lgr btn-lgr-add-client {% if app.user.user.agency.facturationBylegrain is null %}disabled{% endif %}">Ajouter un client</a>
+
+                                    {% if app.user.user.agency.facturationBylegrain is null %}
+                                        <a href="{{ path('choice_facturation_agency') }}" class="btn btn-block btn-danger" >  <i class="fa fa-exclamation-triangle"></i> Options de facturations</a>
+                                        <p class="help-block"><i class="fa fa-exclamation-triangle"></i> Renseignez ce choix pour activer la gestion des clients</p>
+
+                                    {% endif %}
+                                </div><!-- /.box-body -->
+                            </div>
+                        </div>
+
+                    {% endif %}
+
+                    <div class="col-md-4 flex">
+                        <div class="box box-solid box-dark-grey">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Mes domaines</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body mt20">
+                                <p>
+                                    <a href="{{ path('ndds_user') }}" class="btn btn-block btn-default btn-lgr-domaine">Mes domaines</a>
+                                </p>
+                                <p>
+                                    <a href="{{ path('public-buy-ndd') }}" class="btn btn-block btn-default btn-lgr btn-lgr-buy-ndd">Acheter un nom de domaine</a>
+                                </p>
+                            </div><!-- /.box-body -->
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 flex">
+                        <div class="box box-solid box-dark-grey">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Mes serveurs</h3>
+
+                            </div><!-- /.box-header -->
+                            <div class="box-body mt20">
+                                <p>
+                                    <a href="{{ path('instances_user') }}" class="btn btn-block btn-default btn-lgr-server">Mes serveurs</a>
+                                </p>
+                                <p>
+                                    <a href="{{ path('public-buy-server') }}" class="btn btn-block btn-default btn-lgr btn-lgr-buy-server">Acheter un serveur</a>
+                                </p>
+                            </div><!-- /.box-body -->
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+                    {% if app.user.user.agency.descriptionHtml != '' %}
+
+
+                        <div class="col-md-4">
+                            <div class="box box-solid box-dark-grey">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Quelques mots</h3>
+
+                                </div><!-- /.box-header -->
+                                <div class="box-body mt20">
+                                    {{ app.user.user.agency.descriptionHtml |raw }}
+                                </div><!-- /.box-body -->
+                            </div>
+
+                        </div>
+                    {% endif %}
+                    <div class="{% if app.user.user.agency.descriptionHtml == '' %}col-md-6{% else %}col-md-4{% endif %}">
+                        <div class="box box-solid box-dark-grey">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Services</h3>
+
+                            </div><!-- /.box-header -->
+                            <div class="box-body mt20">
+                                <p>
+                                    <canvas id="chartAchats"  data-createndd="{{ nbndds }}" data-renewndd="{{ nbrenewndds }}" data-instance="{{ nbinstances }}" data-renewinstance="{{ nbrenewinstances }}" ></canvas>
+                                </p>
+                            </div><!-- /.box-body -->
+                        </div>
+
+                    </div>
+
+                    {% if is_granted("ROLE_AGENCE") %}
+                        <div class="{% if app.user.user.agency.descriptionHtml == '' %}col-md-6{% else %}col-md-4{% endif %}">
+                            <div class="box box-solid box-dark-grey">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Informations complémentaires</h3>
+
+                                </div><!-- /.box-header -->
+                                <div class="box-body mt20">
+                                    <div>
+                                        {#{{ dump(app.user) }}#}
+                                         {% if app.user.user.urlApp %}
+                                            <p>
+                                                Url personnalisée : {{ app.user.user.urlApp }}
+
+                                            </p>
+                                             {% if seeDnsUpd %}
+                                              <p> Afin d'activer cette adresse, vous devez ajouter la règle DNS suivante :<br/> <b class="text-blue">{{ subdomain }} 10800 IN CNAME app.gwi-hosting.fr.</b><br/> dans votre fichier de zone</p>
+                                             {% endif %}
+                                            {% else %}
+                                        <a href="{{ path('agency_set_url_app') }}" class="btn btn-block btn-default">
+                                            Adresse d'accès personnalisée
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                    <div class="mt20">
+                                        <a href="{{ path('complement_infos_agency') }}" class="btn btn-block btn-default ">
+                                            {%
+                                            if app.user.user.agency.name is null
+                                            or app.user.user.agency.siret is null
+                                            or app.user.user.agency.address1 is null
+                                            or app.user.user.agency.zipCode is null
+                                            or app.user.user.agency.city is null
+                                            or app.user.user.agency.phone is null
+                                            or app.user.user.agency.email is null
+                                            %}
+                                                <i class="fa fa-exclamation-triangle"></i>
+                                            {% endif %}
+                                            Mon agence
+                                        </a>
+                                        {%
+                                        if app.user.user.agency.name is null
+                                        or app.user.user.agency.siret is null
+                                        or app.user.user.agency.address1 is null
+                                        or app.user.user.agency.zipCode is null
+                                        or app.user.user.agency.city is null
+                                        or app.user.user.agency.phone is null
+                                        or app.user.user.agency.email is null
+                                        %}
+                                            <p class="help-block"><i class="fa fa-exclamation-triangle"></i> Assurez-vous d'avoir bien renseigné votre fiche agence</p>
+                                        {% endif %}
+                                    </div>
+                                    <div class="mt20">
+                                        <a href="{{ path('complement_infos_user') }}" class="btn btn-block btn-default ">
+                                            {%
+                                            if app.user.user.name is null
+                                            or app.user.user.email is null
+                                            or app.user.user.address1 is null
+                                            or app.user.user.zipcode is null
+                                            or app.user.user.city is null
+                                            or app.user.user.tiersPourTVA is null
+
+                                            %}
+                                                <i class="fa fa-exclamation-triangle"></i>
+                                            {% endif %}
+                                            Mon profil</a>
+                                        {%
+                                        if app.user.user.name is null
+                                        or app.user.user.email is null
+                                        or app.user.user.address1 is null
+                                        or app.user.user.zipcode is null
+                                        or app.user.user.city is null
+                                        or app.user.user.tiersPourTVA is null
+
+                                        %}
+                                            <p class="help-block"><i class="fa fa-exclamation-triangle"></i> Assurez-vous d'avoir bien renseigné votre fiche profil</p>
+                                        {% endif %}
+                                    </div>
+                                </div><!-- /.box-body -->
+                            </div>
+
+                        </div>
+                    {% endif %}
+                </div>
+
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

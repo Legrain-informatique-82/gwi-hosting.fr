@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+                <h1>
+                  {{ h1 }}
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'flashMessage.html.twig' %}
+
+
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+
+                {{ form_row(form.name) }}
+                {{ form_row(form.siret) }}
+                {{ form_row(form.address1) }}
+                {{ form_row(form.address2) }}
+                {{ form_row(form.address3) }}
+                {{ form_row(form.zipCode) }}
+                {{ form_row(form.city) }}
+                {{ form_row(form.phone) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.website) }}
+                {% if logo_exist %}
+                    <img src="{{ url_logo | imagine_filter('logo_agency') }}" alt="">
+                {% endif %}
+                {{ form_row(form.logo) }}
+
+                {{ form_row(form.descriptionHtml) }}
+
+                {{ form_end(form) }}
+
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

@@ -1,0 +1,55 @@
+{% if accountBalance %}
+    {#
+               INIT porte monnaie
+               #}
+
+    <li class="dropdown notifications-menu">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            {{ accountBalance.amount }} <i class="fa fa-eur"></i>
+            {% if accountBalance.amount < 10 %}
+                <span class="label label-danger">
+                            <i class="fa fa-warning"></i>
+                        </span> {# Si solde < 10 € #}
+            {% endif %}
+        </a>
+        <ul class="dropdown-menu">
+            {% if false==is_granted('ROLE_LEGRAIN') %}
+            <li class="header">  Solde : {{ accountBalance.amount }} €
+
+                <a href="{{ path("credit_account_balance") }}" class="btn btn-default">Créditer</a>
+            </li>
+                {% endif %}
+            <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                    {% for line in lines %}
+                        <li>
+                        <a href="{{ path('historic_account_balance_user') }}" class="disabled" >
+                            <small class="pull-right text-{% if line.mouvement < 0 %}danger{% else %}success{% endif %}">{{ line.mouvement }}€</small>
+                            <small>Le {{ line.date.date | date("d/m/Y \à H \\h \\e\\t i \\m\\i\\n")  }}</small>
+                            <br/>
+                            {{ line.description }}
+                            <br>
+                            <small><b>{{ line.idTransaction }}</b></small>
+
+
+                        </a>
+                    {% else %}
+                        <li>
+                            <a href="{{ path('historic_account_balance_user') }}">
+                                Aucune transaction trouvée.
+                            </a>
+                        </li>
+                    {% endfor %}
+
+                </ul>
+            </li>
+            <li class="footer"><a href="{{ path('historic_account_balance_user') }}">Historique des mouvements</a></li>
+        </ul>
+    </li>
+
+
+    {#
+    fin porte monnaie
+    #}
+{% endif %}

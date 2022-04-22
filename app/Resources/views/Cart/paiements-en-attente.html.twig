@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <img src="{{ asset('images/Tarifs.png') }}" alt="">
+                    {{ h1 }}
+
+                </h1>
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'flashMessage.html.twig' %}
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+                <table class="dataTable table table-striped table-hover table-condensed" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Ajouter au panier</th>
+                        <th>Utilisateur pour lequel<br/>sera le produit</th>
+                        <th>Libellé</th>
+                        <th>Total HT payé par le client</th>
+                        <th>Total HT à payer</th>
+                        {#<th>Solde actuel</th>#}
+                        <th>Date d'achat (par le client)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in paiementsEnAttente  %}
+                        <tr>
+                            <td>
+                                {{ form_row( attribute(form, 'line_'~item.id)  ) }}
+                            </td>
+                            <td>{{ item.userFinal.name }} {{ item.userFinal.firstname }}<br/>{{ item.userFinal.email }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.totalHT }}€</td>
+                            <td>{{ (item.product.minPriceHT==null?item.product.priceHT:item.product.minPriceHT) * item.quantity }}€</td>
+                            {#<td>{{ dump(item) }}</td>#}
+                            <td data-order="{{ item.date.date |date('Ymd') }}">{{ item.date.date |date('d/m/Y') }}</td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {{ form_end(form) }}
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

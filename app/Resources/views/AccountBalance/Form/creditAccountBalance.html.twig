@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    {{ h1 }}
+
+                </h1>
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'flashMessage.html.twig' %}
+
+                <div id="tabs-with-hash" class="nav nav-tabs nav-justified">
+                    <ul>
+                        {% if isPossibleToPayByCard %}
+                        <li><a href="#cb" >Par carte</a></li>
+                        {% endif %}
+                        <li><a href="#cheque">Par chèque</a></li>
+                        <li><a href="#virement">Par virement</a></li>
+                    </ul>
+                    <div class="box">
+
+
+                        <div class="box-body">
+                            {% if isPossibleToPayByCard %}
+                            <div id="cb">
+                                <a href="{{ urlPaiementExterne }}" class="btn btn-default btn-lgr-euro btn-lgr">Créditer par carte bancaire</a>
+{#
+                                {{ form_start(form) }}
+                                {{ form_errors(form) }}
+                                {{ form_end(form) }}
+#}
+                            </div>
+                            {% endif %}
+                            <div id="cheque">
+                                <p>
+                                    En envoyant un chèque d'une valeur minimale de 10€
+                                    <br/>
+
+
+                                </p>
+                                <address>
+                                    {{ infosPaiements.cheque | raw }}
+                                </address>
+                                <p>
+                                    Votre compte sera crédité une fois le cheque reçu et encaissé.
+                                </p>
+                            </div>
+                            <div id="virement">
+                                <p>
+                                    Par virement, d'un montant minimum de 10€<br/>
+                                   {{ infosPaiements.virement | raw}}
+                                </p>
+                                <p>
+                                    Votre compte sera crédité une fois le virement reçu.
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

@@ -1,0 +1,7 @@
+# This file is auto-generated during the composer install
+parameters:
+    wsdl_gwi_hosting_security: http://devapi.gwi-hosting.fr/app_dev.php/api/soap/gwiHostingSecurity?wsdl
+    wsdl_gwi_hosting: http://devapi.gwi-hosting.fr/app_dev.php/api/soap/gwiHosting?wsdl
+    url_paiement_externalise: http://dev.paiement-externe.fr/app_dev.php/cb/
+    developpement: true
+    logos_directory: /var/www/gwi-hosting/gwi-hosting.fr/web/images/logos

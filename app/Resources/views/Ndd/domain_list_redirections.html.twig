@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <img src="{{ asset('images/domaine.png') }}" alt="">
+                    Gestion des redirections sur le domaine {{ ndd }}
+                </h1>
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                <p>
+                    <a class="btn btn-lgr btn-default btn-lgr-add-gestionnaire"
+                            {% if type == "super_admin" %}
+                       href="{{ path("create-redirection-super-admin",{'ndd':ndd,'idagency':idagency,'iduser':iduser})  }}">
+                        {% elseif type == "admin" %}
+                            href="{{ path("create-redirection-admin",{'ndd':ndd,'iduser':iduser})  }}">
+                        {% else %}
+                            href="{{ path("create-redirection-user",{'ndd':ndd})  }}">
+                        {% endif %}
+                        Ajouter une redirection
+                    </a>
+                </p>
+
+                {% include 'flashMessage.html.twig' %}
+
+                <table class="dataTable table table-striped table-hover table-condensed" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Sous domaine</th>
+                        <th>Type</th>
+                        <th>Adresse de redirection</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in list %}
+                        <tr>
+                            <td>{{ item.host }}</td>
+                            <td>
+                                {#http301; http302, cloak == (frame)#}
+                                {%  if item.type == 'http301' %}
+                                    301 - Directe (permanente)
+                                {% elseif  item.type == 'http302' %}
+                                    302 - Directe (temporaire)
+                                {% else %}
+                                    transparent
+                                {% endif %}
+
+                            </td>
+                            <td>{{ item.url }}</td>
+                            <td>
+                                {% if item.host %}
+                                    {% set nh = item.host %}
+                                {% else %}
+                                    {% set nh = '(vide)' %}
+                                {% endif %}
+                                {% if type == 'super_admin'%}
+
+                                    <div class="btn-group">
+                                        <a href="{{ path('update-redirection-super-admin',{'idagency':idagency,'iduser':iduser,'ndd':ndd,'host':nh}) }}" class="btn btn-warning">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                        <a href="{{ path('delete-redirection-super-admin',{'idagency':idagency,'iduser':iduser,'ndd':ndd,'host':nh}) }}" class="btn btn-danger">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </div>
+                                {% elseif type == 'admin'%}
+
+                                    <div class="btn-group">
+                                        <a href="{{ path('update-redirection-admin',{'iduser':iduser,'ndd':ndd,'host':nh}) }}" class="btn btn-warning">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                        <a href="{{ path('delete-redirection-admin',{'iduser':iduser,'ndd':ndd,'host':nh}) }}" class="btn btn-danger">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </div>
+                                {% else %}
+
+                                    <div class="btn-group">
+                                        <a href="{{ path('update-redirection-user',{'ndd':ndd,'host':nh}) }}" class="btn btn-warning">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                        <a href="{{ path('delete-redirection-user',{'ndd':ndd,'host':nh}) }}" class="btn btn-danger">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <img src="{{ asset('images/Clients_grd.png') }}" alt="">
+                    {{ h1 }}
+                </h1>
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                {% include 'flashMessage.html.twig' %}
+
+
+                <div>
+                    <p>
+                        <a class="btn btn-default btn-lgr btn-lgr-add-client" href="{% if pathRouteNameBtnAdd == 'addCustomer' %}{{ path(pathRouteNameBtnAdd)  }}{% else %}{{ path(pathRouteNameBtnAdd,{'idagency':agency.id})  }}{% endif %}">
+                             Ajouter un client
+                        </a>
+                    </p>
+                </div>
+
+                <div class="mt20">
+                    <table class="dataTable table table-striped table-hover table-condensed" width="100%">
+                        <thead>
+                        <tr>
+                            <th>Code client</th>
+                            <th>Nom &amp; prénom</th>
+                            <th>Adresse</th>
+                            <th>Téléphone</th>
+                            <th>E-mail</th>
+                            {% if is_granted("ROLE_LEGRAIN") %}
+                                <th>Type de client</th>
+                            {% endif %}
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.codeClient }}</td>
+                                <td data-order="{{ (user.name ~' '~user.firstname) }}">
+                                    {{ (user.name ~' '~user.firstname) | truncate(30)}}
+                                <td>{{ user.address1 }}
+                                    {% if user.address2 %}<br/>{{ user.address2 }}{% endif %}
+                                    {% if user.address3 %}<br/>{{ user.address3 }}{% endif %}
+                                    <br/> {% if user.zipcode != null %}
+                                        {{ user.zipcode.name }}
+                                    {% endif %}
+                                    {% if user.city != null  %}
+                                        {{ user.city.name }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ user.phone }}</td>
+                                <td>{{ user.email }} </td>
+
+                                {% if is_granted("ROLE_LEGRAIN") %}
+                                    <td>{% if user.isGestionnaire %}Agence{% else %}Client{% endif %}</td>
+                                {% endif %}
+                                <td>
+                                    <div class="btn-group">
+                                        <div class="btn-group">
+                                            <div class="btn-group">
+
+                                                {% if type=="admin" %}
+
+                                                    <a class="btn btn-default" href="{{ path("customer_admin",{'iduser':user.id}) }}" title="Fiche de l'utilisateur">
+                                                        <i class="fa fa-user"></i>
+                                                    </a>
+                                                    <a class="btn btn-primary" href="{{ path("ndds_admin",{'iduser':user.id}) }}" title="Liste des domaines"><i class="fa fa-globe"></i></a>
+                                                    <a class="btn btn-info" href="{{ path("instances_admin",{'iduser':user.id}) }}" title="Liste des serveurs"><i class="fa fa-server"></i></a>
+                                                    <a class="btn-warning btn" href="{{ path("update_customer_admin",{'iduser':user.id}) }}" title="Editer"><i class="fa fa-pencil"></i></a>
+                                                    <a class="btn-danger btn" href="{{ path("delete_customer_admin",{'iduser':user.id}) }}" title="Supprimer"><i class="fa fa-trash"></i></a>
+                                                    <a class="btn-default btn" href="{{ path("historic_account_balance_admin",{'iduser':user.id}) }}" title="Liste des transactions"><i class="fa fa-eur"></i></a>
+                                                {% elseif type=="super_admin" %}
+                                                    <a class="btn btn-default" href="{{ path("customer_super_admin",{'idagency':user.agency.id,'iduser':user.id}) }}" title="Fiche de l'utilisateur">
+                                                        <i class="fa fa-user"></i>
+                                                    </a>
+                                                    <a class="btn btn-primary" href="{{ path("ndds_super_admin",{'idagency':user.agency.id,'iduser':user.id}) }}" title="Liste des domaines"><i class="fa fa-globe"></i></a>
+                                                    <a class="btn btn-info" href="{{ path("instances_super_admin",{'idagency':user.agency.id,'iduser':user.id}) }}" title="Liste des serveurs"><i class="fa fa-server"></i></a>
+                                                    <a class="btn-warning btn" href="{{ path("update_customer_super_admin",{'idagency':user.agency.id,'iduser':user.id}) }}" title="Editer"><i class="fa fa-pencil"></i></a>
+                                                    <a class="btn-danger btn" href="{{ path("delete_customer_super_admin",{'idagency':user.agency.id,'iduser':user.id}) }}" title="Supprimer"><i class="fa fa-trash"></i></a>
+                                                    <a class="btn-default btn" href="{{ path("historic_account_balance_super_admin",{'idagency':user.agency.id,'iduser':user.id}) }}" title="Liste des transactions"><i class="fa fa-eur"></i></a>
+                                                {% endif %}
+                                                {% if bugzilla %}
+                                                    <a href="{{ path("gestTagBugzilla",{'idagency':user.agency.id,'iduser':user.id}) }}" class="btn btn-info" title="tag bugzilla"><i class="fa fa-bug"></i></a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+
+
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

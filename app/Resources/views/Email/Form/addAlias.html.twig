@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+                <h1>
+                    Ajouter un alias
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'flashMessage.html.twig' %}
+
+
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+                <p>
+                    Les alias sont les autres noms sous lesquels sera reconnue votre nouvelle boîte aux lettres, Par exemple : <br/>
+                    pour prenom.nom@example.com.
+                    En choisissant l'alias nom.prenom, les e-mails envoyés à l'adresse mail nom.prenom@example.com arriveront sur l'adresse e-mail prenom.nom@example.com
+
+
+                </p>
+                {{ form_row(form.alias) }}
+
+                <div class="row">
+                    <div class="col-md-2">
+                        {{ form_row(form.save) }}
+
+                    </div>
+                    <div class="col-md-2">
+                        {% if type == 'super_admin' %}
+                            <a class="btn btn-default" href="{{ path('list_alias_mailbox_super_admin',{'idagency':idagency,'iduser':iduser,'ndd':ndd,'emailAddress':emailAddress}) }}">
+                                Annuler
+                            </a>
+                        {% elseif type == 'admin' %}
+                            <a class="btn btn-default" href="{{ path('list_alias_mailbox_admin',{'iduser':iduser,'ndd':ndd,'emailAddress':emailAddress}) }}">
+                                Annuler
+                            </a>
+                        {% elseif type =='user' %}
+                            <a class="btn btn-default" href="{{ path('list_alias_mailbox_user',{'ndd':ndd,'emailAddress':emailAddress}) }}">
+                                Annuler
+                            </a>
+                            {% else %}
+                            <a class="btn btn-default" href="{{ path('my_email_account') }}">
+                                Annuler
+                            </a>
+
+                        {% endif %}
+                    </div>
+                </div>
+                {{ form_end(form) }}
+
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

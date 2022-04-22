@@ -1,0 +1,42 @@
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Renouveler ?</th>
+        <th>Nom de domaine</th>
+        <th>Date expiration</th>
+        <th>Durée</th>
+        <th>Nouvelle DAte</th>
+    </tr>
+    </thead>
+    
+    <tbody>
+
+    {% for sform in form %}
+
+
+        {{ form_start(sform) }}
+
+
+        <tr>
+            <td></td>
+            <td>{{ form_row(sform) }}</td>
+            <td>{{ form_row(sform) }}</td>
+            <td></td>
+            <td></td>
+        </tr>
+        {{ form_end(sform) }}
+    {% endfor %}
+
+    
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+

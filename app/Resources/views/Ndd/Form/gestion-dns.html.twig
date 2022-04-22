@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <img src="{{ asset('images/domaine.png') }}" alt="">
+                    {{ h1 }}
+
+                </h1>
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+                <!--
+                <div class="well mt20">
+
+                </div>
+-->
+
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+                <div class="row">
+                    <div class="col-md-3">
+                        {{ form_row(form.type) }}
+                    </div>
+                    <div class="col-md-9">
+                        <div id="jsAllElems" class="row {{ hide }}">
+                            <div class="col-md-4">
+                                {{ form_row(form.dns1) }}
+                                {{ form_row(form.dns2) }}
+                                {{ form_row(form.dns3) }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form_row(form.dns4) }}
+                                {{ form_row(form.dns5) }}
+                                {{ form_row(form.dns6) }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form_row(form.dns7) }}
+                                {{ form_row(form.dns8) }}
+                                {{ form_row(form.dns9) }}
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    
+                </div>
+                <div class="row">
+                    <div class="col-xs-1">{{ form_row(form.submit) }}</div>
+                    <div class="col-xs-1">
+                        {% if typeusr == 'super_admin' %}
+                            <a href="{{ path('ndd_super_admin',{'idagency':idagency,'ndd':ndd,'iduser':iduser}) }}" class="btn btn-default">Annuler</a>
+
+                        {% elseif typeusr == 'admin' %}
+                            <a href="{{ path('ndd_admin',{'ndd':ndd,'iduser':iduser}) }}" class="btn btn-default">Annuler</a>
+
+                        {% else %}
+                            <a href="{{ path('ndd_user',{'ndd':ndd}) }}" class="btn btn-default">Annuler</a>
+
+
+                        {% endif %}
+                    </div>
+                </div>
+                {{ form_end(form) }}
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'flashMessage.html.twig' %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

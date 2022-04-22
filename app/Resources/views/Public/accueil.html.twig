@@ -1,0 +1,78 @@
+{% extends 'Public/base.html.twig' %}
+
+
+{% block body %}
+    <div class="container">
+        {% include 'Public/header.html.twig' %}
+    </div><!-- /.container -->
+    <div id="content" class="container">
+
+        {% for tweet in tweets %}
+            {% if loop.first %}
+                <div class="text-carousel">
+            {% endif %}
+            {% if tweet.entities.media is defined %}
+                <div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img src="{{ tweet.entities.media.0.media_url }}" alt="" class="img-responsive" />
+                        </div>
+                        <div class="col-md-9">
+                            {{ tweet.text|replace({'#gwi': '', '#': "",(tweet.entities.media.0.url):""}) }}
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div>
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <img src="{{ asset('images/logo-par-defaut-pour-twitter.png') }}" alt="" class="img-responsive" />
+                        </div>
+                        <div class="col-xs-9">
+                            {{ tweet.text|replace({'#gwi': '', '#': ""}) }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if loop.last %}
+                </div> <!--./text-carousel -->
+            {% endif %}
+        {% endfor %}
+
+
+
+        {#Description agence#}
+
+        {% if agence.descriptionHtml %}
+            <div>
+                {{ agence.descriptionHtml | raw }}
+            </div>
+        {% endif %}
+
+        {% include 'flashMessage.html.twig' %}
+
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <a href="{{ path('public-buy-ndd') }}"><img class="img-responsive" src="{{ asset('images/enregister-nom-de-domaine.jpg') }}" alt="Enregistrer un nom de domaine"></a>
+            </div>
+            <div class="col-md-4 text-center">
+                <a href="{{ path('public-buy-server') }}">
+                    <img class="img-responsive" src="{{ asset('images/reserver-serveur.jpg') }}" alt="Réserver un serveur">
+                </a>
+            </div> <div class="col-md-4 text-center">
+                <a href="{{ path('public-buy-ndd') }}">
+                <img class="img-responsive" src="{{ asset('images/creer-mail.jpg') }}" alt="Creer vos adresses profesionelles">
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+
+    {% include 'Public/footer.html.twig' %}
+
+
+
+
+
+{% endblock %}

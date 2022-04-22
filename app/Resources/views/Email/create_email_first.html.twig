@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                   Aucune boite e-mail
+
+                </h1>
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                {% include 'flashMessage.html.twig' %}
+
+                {% include 'Ndd/Nav/options.html.twig'  with {'active': 'email','ndd':ndd } %}
+
+                <div class="well">
+                    <p>Aucune boite e-mail existante, cliquez sur le bouton ci-dessous pour en ajouter une.</p>
+                    <p>
+                        <a class="btn btn-primary" href="{{ path(btnAddAction.url,btnAddAction.param)  }}">
+                            <i class="fa fa-plus"></i> {{ btnAddAction.label  }}
+                        </a>
+                    </p>
+                </div>
+
+
+
+
+
+
+
+
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

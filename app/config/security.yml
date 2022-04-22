@@ -1,0 +1,48 @@
+security:
+    role_hierarchy:
+        ROLE_AGENCE: ROLE_UTILISATEUR_AGENCE
+        ROLE_LEGRAIN: ROLE_AGENCE
+    encoders:
+        AppBundle\Security\WebserviceUser:
+            #algorithm:  plaintext
+            id: lgrencoder
+            ignore_case: false
+    access_control:
+        - { path: ^/private/password-forgotten$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/private/register$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/private/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/private, roles: [ROLE_UTILISATEUR_AGENCE,ROLE_COMPTE_EMAIL ]}
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+    providers:
+        main:
+            id: security_userprovider
+        in_memory:
+            memory: ~
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js|img|adminLTE)/
+            security: false
+
+        login:
+            pattern: ^/login$
+            security: false
+
+        main:
+            pattern: ^/
+            form_login:
+                login_path: login
+                check_path: login_check
+                remember_me: true
+            anonymous: true
+
+            logout:
+                path: /logout
+                target: /
+
+            remember_me: 
+                 secret: "%secret%"
+                 lifetime: 2232000
+        default:
+            anonymous: ~

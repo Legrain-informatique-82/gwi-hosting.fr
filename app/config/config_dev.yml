@@ -1,0 +1,69 @@
+imports:
+    - { resource: config.yml }
+    - { resource: parameters_dev.yml }
+
+framework:
+    router:
+        resource: "%kernel.root_dir%/config/routing_dev.yml"
+        strict_requirements: true
+    profiler: { only_exceptions: false }
+
+web_profiler:
+    toolbar: true
+    intercept_redirects: false
+
+monolog:
+    handlers:
+        main:
+            type: stream
+            path: "%kernel.logs_dir%/%kernel.environment%.log"
+            level: debug
+            channels: [!event]
+        console:
+            type:   console
+            bubble: false
+            channels: [!event, !doctrine]
+        # uncomment to get logging in your browser
+        # you may have to allow bigger header sizes in your Web server configuration
+        #firephp:
+        #    type:   firephp
+        #    level:  info
+        #chromephp:
+        #    type:   chromephp
+        #    level:  info
+
+#assetic:
+#    use_controller: true
+
+#swiftmailer:
+#    delivery_address: me@example.com
+
+# be simple Configuration
+#be_simple_soap:
+#    cache:
+#        type:     disk
+#        lifetime: 86400
+#        limit:    5
+#    clients:
+#        GwiHostingSecurityApi:
+#                # required
+#            wsdl: http://devapi.gwi-hosting.fr/app_dev.php/api/soap/gwiHostingSecurity?wsdl
+#        GwiHostingApi:
+#            # required
+#            wsdl: http://devapi.gwi-hosting.fr/app_dev.php/api/soap/gwiHosting?wsdl
+#
+#            # classmap (optional)
+#            #classmap:
+#               #ZipCode: AppBundle\Api\ZipCodeApi
+#               #City: AppBundle\Api\CityApi
+#
+#
+#            ## proxy (optional)
+#           # proxy:
+#               # host:     proxy.domain.name # required to enable proxy configuration
+#              #  port:     3128
+#              #  login:    ~
+#              #  password: ~
+#              #  auth:     ~ # can be 'basic' or 'ntlm'
+#
+#

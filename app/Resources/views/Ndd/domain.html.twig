@@ -1,0 +1,172 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <img src="{{ asset('images/domaine.png') }}" alt="">
+                    Gestion de {{ ndd.name }} : Général
+
+                </h1>
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                {% include 'flashMessage.html.twig' %}
+
+                {% include 'Ndd/Nav/options.html.twig'  with {'active': 'general','ndd':ndd.name, 'type':type,'idagency':idagency,'iduser':iduser} only %}
+
+                <div class="row row-eq-height mt20">
+                    <div class="col-md-6 flex">
+                        <div class="box box-solid box-default">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Informations</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+                                <p>
+                                    <i class="fa fa-globe"> </i>
+                                    <b class="text-primary"> Nom de domaine : </b> {{ ndd.name }}
+                                </p>
+                                <p>
+                                    <i class="fa fa-calendar"></i>
+                                    <b class="text-primary"> Date d'expiration : </b>{{ ndd.date_registry_end | date('d/m/Y') }}
+
+                                </p>
+
+
+
+
+                                {% if ndd.ownerContact != null %}
+
+                                    {% if (ndd.ownerContact.code=='GI47-GWI' and app.user.user.id !=1) or (ndd.ownerContact.code=='PB10746-GWI' and app.user.user.id !=1) %}
+                                        <p>Impossible d'afficher le contact propriètaire. Merci de vous rapprocher de legrain au 05.63.30.31.44</p>
+                                    {% else %}
+                                        <p><i class="fa fa-compress"> </i> <b class="text-primary"> Contact :  </b> {{ ndd.ownerContact.code }}</p>
+                                        <p><i class="fa fa-envelope"> </i> <b class="text-primary">E-mail associé : </b> {{ ndd.ownerContact.fakeEmail }}</p>
+                                    {% endif %}
+
+                                {% endif %}
+
+                                {# Si ndd pas sur gandi, on affiche les DNS #}
+                                {#
+                                {% if ndd.nameservers.0 != 'a.dns.gandi.net' %}
+
+                                    <p><b class="text-primary">DNS : </b></p>
+                                    <ul>
+                                        {% for server in ndd.nameservers %}
+                                            <li><b class="text-primary">DNS {{ loop.index }} :</b> {{ server }}</li>
+                                        {% endfor %}
+                                    </ul>
+
+                                {% endif %}
+                                #}
+                            </div><!-- /.box-body -->
+                        </div><!-- /.box -->
+                    </div><!-- ./col -->
+                    <div class="col-md-3 flex">
+
+                        <div class="box box-solid box-default">
+                            <div class="box-header">
+                                <h3 class="box-title">Outils</h3>
+
+                            </div>
+
+                            <div class="box-body">
+
+
+                                <a  class="fancybox btn btn-block btn-default" href="{{ path('fancybox_get_whois',{'ndd':ndd.name}) }}" data-fancybox-type="iframe" >Whois</a>
+
+                                <a  class="fancybox btn btn-block btn-default" href="{{ path('fancybox_get_auth_code',{'ndd':ndd.name}) }}" data-fancybox-type="iframe" >Afficher le code d'autorisation</a>
+
+
+                                {% if type == 'super_admin' %}
+                                    <a href="{{ path("ndd_gestion_dns_super_admin",{'idagency':idagency,'iduser':iduser,'ndd':ndd.name}) }}" class="btn-block btn-default btn " title="Gérer les DNS">Gérer les DNS</a>
+
+                                {% elseif type == 'admin' %}
+                                    <a href="{{ path("ndd_gestion_dns_admin",{'iduser':iduser,'ndd':ndd.name}) }}" class="btn-block btn-default btn " title="Gérer les DNS">Gérer les DNS</a>
+
+                                {% else %}
+                                    <a href="{{ path("ndd_gestion_dns_user",{'ndd':ndd.name}) }}" class="btn-block btn-default btn " title="Gérer les DNS">Gérer les DNS</a>
+
+                                {% endif %}
+
+                                    {% if type == 'super_admin' %}
+                                        <a href="{{ path("ndd_list_zone_super_admin",{'idagency':idagency,'iduser':iduser,'ndd':ndd.name}) }}" class="btn-block btn-default btn " title="Fichier de zone DNS">Fichier de zone DNS</a>
+
+                                    {% elseif type == 'admin' %}
+                                        <a href="{{ path("ndd_list_zone_admin",{'iduser':iduser,'ndd':ndd.name}) }}" class="btn-block btn-default btn " title="Fichier de zone DNS">Fichier de zone DNS</a>
+
+                                    {% else %}
+                                        <a href="{{ path("ndd_list_zone_user",{'ndd':ndd.name}) }}" class="btn-block btn-default btn " title="Fichier de zone DNS">Fichier de zone DNS</a>
+
+                                    {% endif %}
+
+                                    {% if type == 'super_admin' %}
+                                        <a href="{{ path("ndd_list_redirections_super_admin",{'idagency':idagency,'iduser':iduser,'ndd':ndd.name}) }}" class="btn-block btn-default btn " title="Redirections">Redirections</a>
+
+                                    {% elseif type == 'admin' %}
+                                        <a href="{{ path("ndd_list_redirections_admin",{'iduser':iduser,'ndd':ndd.name}) }}" class="btn-block btn-default btn " title="Redirections">Redirections</a>
+
+                                    {% else %}
+                                        <a href="{{ path("ndd_list_redirections_user",{'ndd':ndd.name}) }}" class="btn-block btn-default btn " title="Redirections">Redirections</a>
+
+                                    {% endif %}
+
+                            </div><!-- /box-body -->
+                        </div><!-- /.box -->
+                    </div><!-- ./col -->
+
+                    <div class="col-md-3 flex">
+
+                        <div class="box box-solid box-default">
+                            <div class="box-header">
+                                <h3 class="box-title">Options</h3>
+
+                            </div>
+
+                            <div class="box-body">
+                                {% if afficheProduits %}
+
+                                    {% if type == 'super_admin' %}
+                                        <a href="{{ path("renew_ndd_super_admin",{'idagency':idagency,'iduser':iduser,'ndd':ndd.name}) }}" class="btn-block btn-default btn btn-lgr btn-lgr-renouveler-domaine" title="Renouveler le domaine">Renouveler le domaine</a>
+
+                                    {% elseif type == 'admin' %}
+                                        <a href="{{ path("renew_ndd_admin",{'iduser':iduser,'ndd':ndd.name}) }}" class="btn-block btn-default btn btn-lgr btn-lgr-renouveler-domaine" title="Renouveler le domaine">Renouveler le domaine</a>
+
+                                    {% else %}
+                                        <a href="{{ path("renew_ndd_user",{'ndd':ndd.name}) }}" class="btn-block btn-default btn btn-lgr btn-lgr-renouveler-domaine" title="Renouveler le domaine">Renouveler le domaine</a>
+
+                                    {% endif %}
+                                {% endif %}
+                            </div><!-- /box-body -->
+                        </div><!-- /.box -->
+
+
+                    </div><!-- /.col -->
+                </div>
+
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

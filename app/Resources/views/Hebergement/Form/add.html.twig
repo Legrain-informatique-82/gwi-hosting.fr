@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    {{ h1 }}
+                </h1>
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                {% include 'flashMessage.html.twig' %}
+                <div class="col-md-6">
+                    {{ form_start(form) }}
+                    {{ form_errors(form) }}
+
+
+
+                    <div class="form-group">
+                        {{ form_label(form.subdomain) }}
+                        {{ form_errors(form.subdomain) }}
+
+
+                        <div class="input-group">
+                            {{ form_widget(form.subdomain) }}
+                            <div class="input-group-addon">.{{ ndd.name }}</div>
+                        </div>
+                    </div>
+
+
+                <div class="ui-widget">
+                    {{ form_row(form.instance) }}
+
+                </div>
+
+
+
+                {{ form_end(form) }}
+                </div>
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

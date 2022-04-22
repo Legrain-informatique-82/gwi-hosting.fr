@@ -1,0 +1,57 @@
+{% if cart %}
+    {#  INIT porte monnaie #}
+
+    <li class="dropdown notifications-menu">
+        <a href="#" class="dropdown-toggle cart-elem" data-toggle="dropdown">
+            <i class="fa fa-shopping-cart"></i>
+
+            <span>{{ cart.cartLines | length }} </span>
+
+        </a>
+        <ul class="dropdown-menu">
+            <li class="header">
+                <!-- Ajout du petit tag avec le nombre de produit dans le panier -->
+            </li>
+            <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                        {% for line in cart.cartLines %}
+                            <li>
+                                <p>
+                                    <small class="pull-right">{{ line.totalHt }}€ HT <br>
+                                        {% if app.user %}
+                                        <a href="{{ path('remove_item_cart',{'idline':line.id}) }}" class="btn btn-danger btn-xs">
+                                            {% else %}
+                                            <a href="{{ path('public_remove_item_cart',{'idline':line.id,'redirect': route}) }}" class="btn btn-danger btn-xs">
+                                                {% endif %}
+                                                <i class="fa fa-trash"></i></a></small>
+                                    {{ line.productName }}
+                                </p>
+                            </li>
+                        {% else %}
+                            <li>
+                                <p>
+                                    Actuellement aucun produit<br/> dans votre panier.
+                                </p>
+                            </li>
+                        {% endfor %}
+                </ul>
+            </li>
+            <li class="footer">
+                {#
+                 <p>
+                     Total HT  : {{ cart.totalHt }} €<br/>
+                     Total TVA  : {{ cart.totalTax }} €<br/>
+                     Total TTC  : {{ cart.totalTTC }} €
+                 </p>
+                 <br/>
+                 #}
+                <a class="btn btn-info " href="{{ path('pay_cart') }}"><i class="fa fa-cart-arrow-down"></i> Voir le panier</a></li>
+        </ul>
+    </li>
+
+
+    {#
+    fin porte monnaie
+    #}
+{% endif %}

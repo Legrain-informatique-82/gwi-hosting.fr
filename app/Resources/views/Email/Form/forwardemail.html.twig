@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+                <h1>
+                    <img src="{{ asset('images/mail-redirection.png') }}" alt="">
+                    {{  h1 }}
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'flashMessage.html.twig' %}
+
+
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.source) }}
+                            {{ form_errors(form.source) }}
+
+                            <div class="input-group">
+                                {{ form_widget(form.source) }}
+                                <div class="input-group-addon">@{{ ndd }}</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

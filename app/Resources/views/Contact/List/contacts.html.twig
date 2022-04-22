@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                <img src="{{ asset('images/liste.png') }}" alt="">
+                    {{ h1 }}
+
+                </h1>
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'flashMessage.html.twig' %}
+
+
+
+
+
+                {% for contact in contacts %}
+                        {#affichage en table#}
+                        {% if loop.first %}
+                            <table class="dataTable table table-striped table-hover table-condensed" width="100%">
+                            <thead>
+                            <tr>
+                                <th>Nom et prénom du contact</th>
+                                <th>Code</th>
+                                <th>Email réél</th>
+                                <th>Email affiché au contact</th>
+                                <th>par défaut</th>
+                               
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                        {% endif %}
+                        <tr>
+                            <td>{{ contact.name }}<br>{{ contact.firstname }}</td>
+                            <td>{{ contact.code }}</td>
+                            <td>{{ contact.email }}</td>
+                            <td>{{ contact.fakeEmail }}</td>
+                            <td>{% if contact.isDefault %}Oui{% else %}Non{% endif %}</td>
+                            <td>
+                            
+                            <a href="{{ path('update-contact',{'idcontact':contact.id}) }}" class="btn btn-warning" title="Modifier"><i class="fa fa-cogs"></i></a>
+                            </td>
+                        </tr>
+                        {% if loop.last %}
+                            </tbody>
+                            </table>
+                        {% endif %}
+
+                                </div><!-- /.box-body -->
+
+                            </div><!-- /.box -->
+                        </div><!-- /.col-md-4 -->
+                        {% if loop.last %}
+                            </div><!-- .row-->
+                        {% endif %}
+                {% endfor %}
+
+
+
+
+
+
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

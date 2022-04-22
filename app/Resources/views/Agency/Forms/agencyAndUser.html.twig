@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+
+                <ol class="breadcrumb">
+                    <li><a href="{{  path('homepage' )}}"><i class="fa fa-dashboard"></i> Accueil</a></li>
+                   <li><a href="{{  path('list-agency')}}">Liste des agences web</a></li>
+                    {% if add %}
+                    <li class="active">Ajouter une agence</li>
+                    {% else %}
+                        <li class="active">Ajouter l'agence</li>
+
+                    {% endif %}
+
+                </ol>
+                <h1>
+                    {% if add %}
+                        Ajouter une agence
+                    {% else %}
+                        Modifier l'agence
+                    {% endif %}
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                {% include 'flashMessage.html.twig' %}
+
+
+
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+
+                {{ form_end(form) }}
+
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

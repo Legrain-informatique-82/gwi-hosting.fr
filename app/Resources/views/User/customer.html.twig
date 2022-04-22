@@ -1,0 +1,320 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <img src="{{ asset('images/utilisateur.png') }}" alt="">
+                    {{ h1 }}
+                </h1>
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                {% include 'flashMessage.html.twig' %}
+
+
+                <div class="row row-eq-height">
+
+                    <div class="col-md-4 flex">
+
+                        <div class="box box-solid box-default">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Utilisateur</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="row mt20">
+                                    <div class="col-md-6">
+                                        <p >Code client : {{ customer.codeClient }}</p>
+                                        <p>E-mail : {{ customer.email }}</p>
+                                        <p>Nom : <b>{{ customer.name }}</b></p>
+                                        <p>Prénom : <b>{{ customer.firstname }}</b></p>
+                                        <address>
+                                            {{ customer.address1 }}<br>
+                                            {{ customer.address2 }}{% if customer.address2 %}<br>{% endif %}
+                                            {{ customer.address3 }}{% if customer.address3 %}<br>{% endif %}
+                                            {% if customer.zipcode != null %}
+                                                {{ customer.zipcode.name }}
+                                            {% endif %}
+                                            {% if customer.city != null  %}
+                                                {{ customer.city.name }}
+                                            {% endif %}
+                                        </address>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <p>Téléphone : {{ customer.phone }}</p>
+                                        <p>Téléphone portable : {{ customer.cellPhone }}</p>
+                                        <p>Téléphone travail : {{ customer.workPhone }}</p>
+                                        <p>Numéro TVA : {{ customer.numTVA }}</p>
+                                        <p>Zone TVA :   {% if customer.zipcode != null %}{{ customer.tiersPourTVA.name }}{% else %}NC{% endif %}</p>
+                                        <p>Utilisateur actif ? {% if customer.active %}Oui{% else %}Non{% endif %}</p>
+                                    </div>
+                                </div>
+
+                            </div><!-- /.box-body -->
+                        </div>
+
+
+
+                    </div>
+                    {% if accountBalance %}
+                    <div class="col-md-4 flex">
+
+                        <div class="box box-solid box-default">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Divers</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+
+                                <div id="tabs">
+                                    <ul>
+                                        <li><a href="#services">Services</a></li>
+                                        <li><a href="#compte-prepaye">Compte prépayé</a></li>
+                                    </ul>
+                                    <div id="services">
+                                        <p>
+                                            Nombre de noms de domaine : {{ nbNdds }}
+                                        </p>
+                                        <p>
+                                            Nombre de serveurs : {{ nbInstances }}
+                                        </p>
+                                    </div>
+                                    <div id="compte-prepaye">
+                                        <p>Solde compte prépayé : {{ accountBalance.amount }} €</p>
+                                    </div>
+
+                                </div><!-- /.tabs -->
+
+                            </div><!-- /.box-body -->
+                        </div>
+
+
+
+
+                    </div>
+
+                    {% endif %}
+                    <div class="col-md-4 flex">
+
+
+
+                        <div class="box box-solid box-default">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Listes</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+                                <p class="mt20">
+                                    {% if customer.isGestionnaire %}
+                                        <a class="btn btn-default btn-lgr-clients btn-block" href="{{ path("list_customer_super_admin",{'idagency':customer.agency.id}) }}" >
+                                            Liste des clients de cette agence
+                                        </a>
+                                    {% endif %}
+
+                                    {% if type=="admin" %}
+
+                                        <a class="btn btn-default btn-block btn-lgr-domaine" href="{{ path("ndds_admin",{'iduser':customer.id}) }}" title="Liste des domaines">Liste des domaines</a>
+                                        <a class="btn btn-default btn-block btn-lgr-server" href="{{ path("instances_admin",{'iduser':customer.id}) }}" title="Liste des serveurs">Liste des serveurs</a>
+                                        <a class="btn-default btn btn-block btn-lgr-euro" href="{{ path("historic_account_balance_admin",{'iduser':customer.id}) }}" title="Liste des transactions">Liste des transactions</a>
+                                    {% elseif type=="super_admin" %}
+                                        <a class="btn btn-default btn-block btn-lgr-domaine" href="{{ path("ndds_super_admin",{'idagency':customer.agency.id,'iduser':customer.id}) }}" title="Liste des domaines">Liste des domaines</a>
+                                        <a class="btn btn-default btn-block btn-lgr-server" href="{{ path("instances_super_admin",{'idagency':customer.agency.id,'iduser':customer.id}) }}" title="Liste des serveurs">Liste des serveurs</a>
+                                        <a class="btn-default btn btn-block btn-lgr-euro" href="{{ path("historic_account_balance_super_admin",{'idagency':customer.agency.id,'iduser':customer.id}) }}" title="Liste des transactions">Liste des transactions</a>
+                                    {% endif %}
+                                    {% if bugzilla %}
+                                        <a href="{{ path("gestTagBugzilla",{'idagency':customer.agency.id,'iduser':customer.id}) }}" class="btn btn-default btn-block btn-lgr-bug" title="tag bugzilla">Tag bugzilla</a>
+                                    {% endif %}
+                                </p>
+                            </div><!-- /.box-body -->
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-md-12">
+
+
+                        <div class="box box-solid box-default">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Services</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+                                {{ form_start(form) }}
+                                <table class="dataTable table table-striped table-hover table-condensed" width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th>Date expiration</th>
+                                        <th>Renouveler un an</th>
+                                        <th>Type</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for service in services %}
+                                        <tr>
+                                            <td data-order="{{ service.date }}">
+                                                {% if service.date < in2months  %}<strong class="{% if service.date < today  %}text-danger{% else %}text-primary{% endif %}">{% endif %}
+                                                    {{ service.date | date('d/m/Y') }}
+                                                    {% if service.date < in2months   %}</strong>{% endif %}
+                                            </td>
+                                            <td>
+                                                {% if  service.type == 'ndd' %}
+                                                    {{ form_row(attribute(form, 'ndd_'~service.id ~'_'~service.idproduct)) }}
+
+                                                {% elseif  service.type == 'instance' %}
+                                                    {{ form_row(attribute(form, 'server_'~service.id ~'_'~service.idproduct)) }}
+                                                {% elseif  service.type == 'hebermutu' %}
+                                                    {{ form_row(attribute(form, 'hebermutu_'~service.id ~'_'~service.idproduct)) }}
+                                                {% endif %}
+                                            </td>
+
+                                            <td>{% if  service.type == 'ndd' %}Nom de domaine{% elseif service.type == 'instance' %}Serveur GWI{% elseif service.type == 'hebermutu' %}Hébergement mutualisé{% endif %}</td>
+                                            <td>
+                                                {% if  service.type == 'ndd' %}
+
+                                                    <div class="btn-group">
+                                                        {% if type == 'super_admin' %}
+                                                            {% if afficheProduits %}
+                                                                <a href="{{ path("renew_ndd_super_admin",{'idagency':idagency,'iduser':iduser,'ndd':service.name}) }}" class="btn btn-default btn-xs" title="Renouveler le domaine"><i class="fa fa-cart-plus"></i></a>
+                                                            {% endif %}
+                                                            <a class="btn btn-default btn-xs" href="{{ path('ndd_super_admin',{'idagency':idagency,'iduser':iduser,'ndd':service.name}) }}" title="Gérer"><i class="fa fa-wrench"></i> </a>
+                                                            <a href="{{ path('list_emails_for_domain_super_admin',{'idagency':idagency,'iduser': iduser ,'ndd':service.name}) }}" class="btn btn-default btn-xs" title="Gestion des boites e-mail">
+                                                                <i class="fa fa-envelope"></i>
+                                                                {% if service.services is defined %}
+                                                                    {% if 'mail' in service.services %}
+                                                                        <sup class="text-success"><i class="fa fa-circle"></i></sup>
+                                                                    {% else %}
+                                                                        <sup><i class="fa fa-circle"></i></sup>
+                                                                    {% endif %}
+                                                                {% else %}
+                                                                    {% if 'mail' == service.services %}
+                                                                        <sup class="text-success"><i class="fa fa-circle"></i></sup>
+                                                                    {% else %}
+                                                                        <sup><i class="fa fa-circle"></i></sup>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            </a>
+                                                            <a href="{{ path('hebergement_super_admin',{'idagency':idagency,'iduser': iduser ,'ndd':service.name}) }}" class="btn btn-default btn-xs" title="Gestion de l'hébergement"><i class="fa fa-database"></i></a>
+                                                        {% elseif type == 'admin' %}
+                                                            {% if afficheProduits %}
+                                                                <a href="{{ path("renew_ndd_admin",{'iduser':iduser,'ndd':service.name}) }}" class="btn btn-default btn-xs" title="Renouveler le domaine"><i class="fa fa-cart-plus"></i></a>
+                                                            {% endif %}
+                                                            <a class="btn btn-default btn-xs" href="{{ path('ndd_admin',{'iduser':iduser,'ndd':service.name}) }}" title="Gérer"><i class="fa fa-wrench"></i> </a>
+                                                            <a href="{{ path("list_emails_for_domain_admin",{"iduser": iduser ,'ndd':service.name}) }}" class="btn btn-default btn-xs" title="Gestion des boites e-mail">
+                                                                <i class="fa fa-envelope"></i>
+                                                                {% if service.services is defined %}
+                                                                    {% if 'mail' in service.services %}
+                                                                        <sup class="text-success"><i class="fa fa-circle"></i></sup>
+                                                                    {% else %}
+                                                                        <sup><i class="fa fa-circle"></i></sup>
+                                                                    {% endif %}
+                                                                {% else %}
+                                                                    {% if 'mail' == service.services %}
+                                                                        <sup class="text-success"><i class="fa fa-circle"></i></sup>
+                                                                    {% else %}
+                                                                        <sup><i class="fa fa-circle"></i></sup>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            </a>
+                                                            <a href="{{ path('hebergement_admin',{'iduser': iduser ,'ndd':service.name}) }}" class="btn btn-default btn-xs" title="Gestion de l'hébergement"><i class="fa fa-database"></i></a>
+                                                        {% else %}
+                                                            {% if afficheProduits %}
+                                                                <a href="{{ path("renew_ndd_user",{'ndd':service.name}) }}" class="btn btn-default btn-xs" title="Renouveler le domaine"><i class="fa fa-cart-plus"></i></a>
+                                                            {% endif %}
+                                                            <a class="btn btn-default btn-xs" href="{{ path('ndd_user',{'ndd':service.name}) }}" title="Gérer"><i class="fa fa-wrench"></i> </a>
+                                                            <a href="{{ path("list_emails_for_domain_user",{'ndd':service.name}) }}" class="btn btn-default btn-xs" title="Gestion des boites e-mail">
+                                                                <i class="fa fa-envelope"></i>
+                                                                {% if service.services is defined %}
+                                                                    {% if 'mail' in service.services %}
+                                                                        <sup class="text-success"><i class="fa fa-circle"></i></sup>
+                                                                    {% else %}
+                                                                        <sup><i class="fa fa-circle"></i></sup>
+                                                                    {% endif %}
+                                                                {% else %}
+                                                                    {% if 'mail' == service.services %}
+                                                                        <sup class="text-success"><i class="fa fa-circle"></i></sup>
+                                                                    {% else %}
+                                                                        <sup><i class="fa fa-circle"></i></sup>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            </a>
+                                                            <a href="{{ path('hebergement_user',{'ndd':service.name}) }}" class="btn btn-default btn-xs" title="Gestion de l'hébergement"><i class="fa fa-database"></i></a>
+                                                        {% endif %}
+                                                    </div>
+
+
+                                                {% elseif service.type == 'instance' %}
+
+
+                                                    <div class="btn-group">
+
+
+                                                        {% if type == 'super_admin' %}
+                                                            {% if afficheProduits %}
+                                                                <a href="{{ path("renew_instance_super_admin",{'idagency':idagency,'iduser':iduser,'idinstance':service.id}) }}" class="btn btn-default btn-xs" title="Renouveler le serveur"><i class="fa fa-cart-plus"></i></a>
+                                                            {% endif %}
+                                                            <a class="btn btn-default btn-xs" href="{{ path('instance_super_admin',{'idagency':idagency,'iduser':iduser,'idinstance':service.id}) }}" title="Gérer"><i class="fa fa-wrench"></i> </a>
+
+                                                        {% elseif type == 'admin' %}
+                                                            {% if afficheProduits %}
+                                                                <a href="{{ path("renew_instance_admin",{'iduser':iduser,'idinstance':service.id}) }}" class="btn btn-default btn-xs" title="Renouveler le serveur"><i class="fa fa-cart-plus"></i></a>
+                                                            {% endif %}
+                                                            <a class="btn btn-default btn-xs" href="{{ path('instance_admin',{'iduser':iduser,'idinstance':service.id}) }}" title="Gérer"><i class="fa fa-wrench"></i> </a>
+                                                        {% else %}
+                                                            {% if afficheProduits %}
+                                                                <a href="{{ path("renew_instance_user",{'idinstance':service.id}) }}" class="btn btn-default btn-xs" title="Renouveler le serveur"><i class="fa fa-cart-plus"></i></a>
+                                                            {% endif %}
+                                                            <a class="btn btn-default btn-xs" href="{{ path('instance_user',{'idinstance':service.id}) }}" title="Gérer"><i class="fa fa-wrench"></i> </a>
+                                                        {% endif %}
+
+                                                    </div>
+
+                                                {% endif %}
+                                            </td>
+
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                {{ form_end(form) }}
+                            </div><!-- /.box-body -->
+                        </div>
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

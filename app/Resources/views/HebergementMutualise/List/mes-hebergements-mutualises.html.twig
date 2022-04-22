@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <img src="{{ asset('images/serveur.png') }}" alt="">
+                    {{ h1 }}
+                </h1>
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                {% include 'flashMessage.html.twig' %}
+                {#{{ dump(list) }}#}
+                {% for l in list %}
+
+                    {#affichage en table#}
+                    {% if loop.first %}
+                        <table class="dataTable table table-striped table-hover table-condensed" width="100%">
+                        <thead>
+                        <tr>
+
+                            <th>Date de fin</th>
+                            <th>Vhosts</th>
+                            <th>Produit</th>
+                            {% if watchProprio %} <th>Propriétaire</th>{% endif %}
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                    {% endif %}
+                    <tr>
+                        <td data-order="{{ l.dateEnding.date|date("U") }}">
+                            {% if (l.dateEnding.date | date('U')) < in2months  %}<strong class="{% if (l.dateEnding.date | date('U')) < today  %}text-danger{% else %}text-primary{% endif %}">{% endif %}
+                                {{ l.dateEnding.date | date('d/m/Y') }}
+                                {% if (l.dateEnding.date | date('U')) < in2months   %}</strong>{% endif %}
+                        </td>
+                        <td>{{ l.vhost|default('Aucun') }}</td>
+                        <td>{{ l.productHosting.name }}</td>
+
+                        {% if watchProprio %}
+                            <td>
+                                {{ l.user.firstname }} {{ l.user.name }}
+                            </td>
+                        {% endif %}
+
+                        <td>
+                            <div class="btn-group">
+
+                                {% if is_granted("ROLE_LEGRAIN") or is_granted('ROLE_AGENCE') or l.productHosting.renewByCustomer %}
+                                    <a href="{{ path("renew_hosting",{'iduser':l.user.id,'idheber':l.id}) }}" class="btn btn-default" title="Renouveler l'hébergement"><i class="fa fa-cart-plus"></i></a>
+                                {% endif %}
+                                {#<a class="btn-warning btn" href="{{ path('update_heber_mutualises_admin',{'idProduit':l.id}) }}" title="Editer"><i class="fa fa-pencil"></i></a>#}
+                                {#<a class="btn-danger btn" href="{{ path('remove_heber_mutualises_admin',{'idProduit':l.id}) }}" title="Editer"><i class="fa fa-trash"></i></a>#}
+                            </div>
+                        </td>
+                    </tr>
+                    {% if loop.last %}
+                        </tbody>
+                        </table>
+                    {% endif %}
+                {% else %}
+                    <p>
+                        Vous ne possèdez actuellement aucun produit hébergement.
+                    </p>
+                {% endfor %}
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+        {% include 'footer.html.twig' %}
+
+    </div><!-- ./wrapper -->
+{% endblock %}

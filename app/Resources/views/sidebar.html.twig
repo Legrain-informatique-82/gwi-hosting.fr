@@ -1,0 +1,321 @@
+{% if disableMenu is not defined %}
+    <!-- Left side column. contains the sidebar -->
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <ul class="sidebar-menu">
+                {% if is_granted("ROLE_COMPTE_EMAIL") %}
+                    <li class="header">Ma boite e-mail</li>
+
+                    <li {% if app.request.get('_route') == 'my_email_account' %}class="active"{% endif %}>
+                        <a href="{{ path("my_email_account") }}">
+                            <i class="fa fa-circle-o text-aqua"></i><span>
+                            Gerer
+                        </span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% if is_granted("ROLE_LEGRAIN") %}
+                    <li class="header">Admin</li>
+
+                    <li class="treeview  {% if app.request.get('_route') == 'list-agency' or app.request.get('_route') == 'create-agency' or app.request.get('_route') == 'list-users-agency' or app.request.get('_route') == 'create-users-agency' %} active {% endif %}">
+                        <a href="#">
+                            <i class="fa fa-building"></i> <span>Agences</span> <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li {% if app.request.get('_route') == 'list-agency' %} class="active" {% endif %}><a href="{{ path("list-agency") }}"><i class="fa fa-circle-o"></i> Agences </a></li>
+                            <li {% if app.request.get('_route') == 'create-agency' %} class="active" {% endif %}><a href="{{ path("create-agency") }}"><i class="fa fa-circle-o"></i> Ajouter une agence </a></li>
+                            <li {% if app.request.get('_route') == 'list-users-agency' %} class="active" {% endif %}><a href="{{ path('list-users-agency') }}"><i class="fa fa-circle-o"></i> Gestionnaires</a></li>
+                            <li {% if app.request.get('_route') == 'create-users-agency' %} class="active" {% endif %}><a href="{{ path('create-users-agency') }}"><i class="fa fa-circle-o"></i>Ajouter un gestionnaire</a></li>
+
+
+                        </ul>
+                    </li>
+
+
+                    <li class="treeview  {% if app.request.get('_route') == 'list-products'  %} active {% endif %}">
+                        <a href="#">
+                            <i class="fa fa-archive"></i> <span>Produits</span> <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li {% if app.request.get('_route') == 'list-products' %} class="active" {% endif %}><a href="{{ path("list-products") }}"><i class="fa fa-circle-o"></i> Produits </a></li>
+
+
+                        </ul>
+                    </li>
+
+                    <li class="treeview  {% if app.request.get('_route') == 'adm_gest_ndd' %} active {% endif %}">
+                        <a href="#">
+                            <i class="fa fa-globe"></i> <span>Nom de domaine</span> <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li {% if app.request.get('_route') == 'adm_gest_ndd' %} class="active" {% endif %}><a href="{{ path("adm_gest_ndd") }}"><i class="fa fa-circle-o"></i> Lier un domaine</a></li>
+
+                        </ul>
+                    </li>
+
+                    <li class="treeview  {% if app.request.get('_route') == 'liaison_instance_gandi' %} active {% endif %}">
+                        <a href="#">
+                            <i class="fa fa-globe"></i> <span>Instances</span> <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li {% if app.request.get('_route') == 'liaison_instance_gandi' %} class="active" {% endif %}><a href="{{ path("liaison_instance_gandi") }}"><i class="fa fa-circle-o"></i> Lier une instance </a></li>
+
+                        </ul>
+                    </li>
+
+                    <li class="treeview  {% if app.request.get('_route') == 'gestion-cgv' %} active {% endif %}">
+                        <a href="#">
+                            <i class="fa fa-globe"></i> <span>CGV</span> <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li {% if app.request.get('_route') == 'gestion-cgv' %} class="active" {% endif %}><a href="{{ path("gestion-cgv") }}"><i class="fa fa-circle-o"></i> Liste des GCV </a></li>
+
+                        </ul>
+                    </li>
+
+                    <li class="treeview  {% if app.request.get('_route') == 'list-contacts'  %} active {% endif %}">
+                        <a href="#">
+                            <i class="fa fa-language"></i> <span>Contacts</span> <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li {% if app.request.get('_route') == 'list-contacts' %} class="active" {% endif %}><a href="{{ path("list-contacts") }}"><i class="fa fa-circle-o"></i> Contacts </a></li>
+
+
+                        </ul>
+                    </li>
+
+
+                {% endif %}
+                {% if is_granted("ROLE_UTILISATEUR_AGENCE") %}
+
+                    <li class="header">General</li>
+                    {% if is_granted("ROLE_AGENCE") %}
+                        <li class="treeview  {% if app.request.get('_route') == 'list_customer_admin' or app.request.get('_route') == 'add_customer_admin' %} active {% endif %}">
+                            <a href="#">
+                                <i class="fa fa-users"></i> <span>Clients</span> <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                {% if app.user.user.agency.facturationBylegrain is null %}
+                                    <li {% if app.request.get('_route') == 'list_customer_admin' %} class="active" {% endif %}><a href="#" ><i class="fa fa-circle-o"></i> Mes clients </a></li>
+                                    <li {% if app.request.get('_route') == 'add_customer_admin' %} class="active" {% endif %}><a href="#" ><i class="fa fa-circle-o"></i> Ajouter un client</a></li>
+                                    <li {% if app.request.get('_route') == 'list_product_next_payement' %} class="active" {% endif %}><a href="#" ><i class="fa fa-circle-o"></i> Paiements en attente<br/> de validation </a></li>
+                                {% else %}
+                                    <li {% if app.request.get('_route') == 'list_customer_admin' %} class="active" {% endif %}><a href="{{ path('list_customer_admin') }}" ><i class="fa fa-circle-o"></i> Mes clients </a></li>
+                                    <li {% if app.request.get('_route') == 'add_customer_admin' %} class="active" {% endif %}><a href="{{ path('add_customer_admin') }}" class="{% if app.user.user.agency.facturationBylegrain == null %}disabled{% endif %}"><i class="fa fa-circle-o"></i> Ajouter un client </a></li>
+                                    <li {% if app.request.get('_route') == 'list_product_next_payement' %} class="active" {% endif %}><a href="{{ path('list_product_next_payement') }}" class="{% if app.user.user.agency.facturationBylegrain == null %}disabled{% endif %}"><i class="fa fa-circle-o"></i> Paiements en attente<br/> de validation </a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                        {#  Si L'agence du gestionnaire n'a pas choisi la facturation par legrain et que l'utilisateur connecté n'est pas legrain#}
+                        {% if ( app.user.user.agency.facturationBylegrain == false) or (is_granted("ROLE_LEGRAIN") ) %}
+                            <li class="treeview  {% if app.request.get('_route') == 'list-pricelists' or app.request.get('_route') == 'param-infos-paiements' %} active {% endif %}">
+                                <a href="#">
+                                    <i class="fa fa-eur"></i> <span>Options facturation</span> <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li {% if app.request.get('_route') == 'list-pricelists' %} class="active" {% endif %}><a href="{{ path('list-pricelists') }}"><i class="fa fa-circle-o"></i> Mes grilles de tarifs</a></li>
+                                    <li {% if app.request.get('_route') == 'param-infos-paiements' %} class="active" {% endif %}><a href="{{ path('param-infos-paiements') }}"><i class="fa fa-circle-o"></i> Paramètres de paiements</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+
+                    {% endif %}
+                    <li class="treeview {% if app.request.get('_route') == 'ndds_user' or app.request.get('_route') == 'all_ndds_admin' %} active {% endif %}">
+                        <a href="#">
+                            <i class="fa fa-globe"></i> <span>Noms de domaine</span> <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li {% if app.request.get('_route') == 'ndds_user' %} class="active" {% endif %}><a href="{{ path('ndds_user') }}"> <i class="fa fa-circle-o"></i> Mes domaines </a></li>
+                            {% if is_granted("ROLE_AGENCE") %}
+                                <li {% if app.request.get('_route') == 'all_ndds_admin' %} class="active" {% endif %}><a  href="{{ path('all_ndds_admin') }}"><i class="fa fa-circle-o"></i> Tous les domaines </a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                    <li class="treeview {% if app.request.get('_route') == 'instances_user' or app.request.get('_route') == 'all_instances_admin' %} active {% endif %}">
+                        <a href="#">
+                            <i class="fa fa-server"></i> <span>Serveurs</span> <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li {% if app.request.get('_route') == 'instances_user' %} class="active" {% endif %}><a  href="{{ path('instances_user') }}"><i class="fa fa-circle-o"></i> Mes serveurs </a></li>
+                            {% if is_granted("ROLE_AGENCE") %}
+                                <li {% if app.request.get('_route') == 'all_instances_admin' %} class="active" {% endif %}><a  href="{{ path('all_instances_admin') }}"><i class="fa fa-circle-o"></i> Tous les serveurs </a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                    <li {% if app.request.get('_route') == 'list_all_my_renew'  %} class="active" {% endif %}>
+                        <a href="{{ path('list_all_my_renew') }}">
+                            <i class="fa fa-clock-o"></i> <span>Mes renouvellements</span>
+                        </a>
+                    </li>
+
+
+                {% endif %}
+
+
+
+
+
+                {% if app.user.user.agency.facturationBylegrain ==false or is_granted('ROLE_LEGRAIN') %}
+                    <li class="treeview {% if app.request.get('_route') == 'list_all_hosting' or app.request.get('_route') == 'list_heber_mutualises_admin' or app.request.get('_route') == 'list_my_hosting' %} active {% endif %} ">
+                        <a href="#">
+                            <i class="fa fa-building"></i> <span>Hébergements</span> <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            {% if is_granted("ROLE_AGENCE") %}
+                                <li {% if app.request.get('_route') == 'list_heber_mutualises_admin'  %} class="active" {% endif %}><a href="{{ path("list_heber_mutualises_admin") }}"><i class="fa fa-circle-o"></i> Liste des produits hébergements </a></li>
+                                <li {% if app.request.get('_route') == 'list_all_hosting'  %} class="active" {% endif %}><a href="{{ path("list_all_hosting") }}"><i class="fa fa-circle-o"></i> Tous les hébergements</a></li>
+
+                            {% endif %}
+                            <li {% if app.request.get('_route') == 'list_my_hosting'  %} class="active" {% endif %}><a href="{{ path("list_my_hosting") }}"><i class="fa fa-circle-o"></i> Mes hébergements</a></li>
+
+                        </ul>
+                    </li>
+                {% endif %}
+            </ul>
+
+            {#
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu">
+
+                        <li class="header">NAVIGATION</li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                                <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-files-o"></i>
+                                <span>Layout Options</span>
+                                <span class="label label-primary pull-right">4</span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="../layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
+                                <li><a href="../layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
+                                <li><a href="../layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
+                                <li><a href="../layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="../widgets.html">
+                                <i class="fa fa-th"></i> <span>Widgets</span> <small class="label pull-right bg-green">Hot</small>
+                            </a>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-pie-chart"></i>
+                                <span>Charts</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="../charts/chartjs.html"><i class="fa fa-circle-o"></i> ChartJS</a></li>
+                                <li><a href="../charts/morris.html"><i class="fa fa-circle-o"></i> Morris</a></li>
+                                <li><a href="../charts/flot.html"><i class="fa fa-circle-o"></i> Flot</a></li>
+                                <li><a href="../charts/inline.html"><i class="fa fa-circle-o"></i> Inline charts</a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-laptop"></i>
+                                <span>UI Elements</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="../UI/general.html"><i class="fa fa-circle-o"></i> General</a></li>
+                                <li><a href="../UI/icons.html"><i class="fa fa-circle-o"></i> Icons</a></li>
+                                <li><a href="../UI/buttons.html"><i class="fa fa-circle-o"></i> Buttons</a></li>
+                                <li><a href="../UI/sliders.html"><i class="fa fa-circle-o"></i> Sliders</a></li>
+                                <li><a href="../UI/timeline.html"><i class="fa fa-circle-o"></i> Timeline</a></li>
+                                <li><a href="../UI/modals.html"><i class="fa fa-circle-o"></i> Modals</a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-edit"></i> <span>Forms</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="../forms/general.html"><i class="fa fa-circle-o"></i> General Elements</a></li>
+                                <li><a href="../forms/advanced.html"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
+                                <li><a href="../forms/editors.html"><i class="fa fa-circle-o"></i> Editors</a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-table"></i> <span>Tables</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="../tables/simple.html"><i class="fa fa-circle-o"></i> Simple tables</a></li>
+                                <li><a href="../tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="../calendar.html">
+                                <i class="fa fa-calendar"></i> <span>Calendar</span>
+                                <small class="label pull-right bg-red">3</small>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="../mailbox/mailbox.html">
+                                <i class="fa fa-envelope"></i> <span>Mailbox</span>
+                                <small class="label pull-right bg-yellow">12</small>
+                            </a>
+                        </li>
+                        <li class="treeview active">
+                            <a href="#">
+                                <i class="fa fa-folder"></i> <span>Examples</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="invoice.html"><i class="fa fa-circle-o"></i> Invoice</a></li>
+                                <li><a href="login.html"><i class="fa fa-circle-o"></i> Login</a></li>
+                                <li><a href="register.html"><i class="fa fa-circle-o"></i> Register</a></li>
+                                <li><a href="lockscreen.html"><i class="fa fa-circle-o"></i> Lockscreen</a></li>
+                                <li><a href="404.html"><i class="fa fa-circle-o"></i> 404 Error</a></li>
+                                <li><a href="500.html"><i class="fa fa-circle-o"></i> 500 Error</a></li>
+                                <li class="active"><a href="blank.html"><i class="fa fa-circle-o"></i> Blank Page</a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-share"></i> <span>Multilevel</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
+                                <li>
+                                    <a href="#"><i class="fa fa-circle-o"></i> Level One <i class="fa fa-angle-left pull-right"></i></a>
+                                    <ul class="treeview-menu">
+                                        <li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
+                                        <li>
+                                            <a href="#"><i class="fa fa-circle-o"></i> Level Two <i class="fa fa-angle-left pull-right"></i></a>
+                                            <ul class="treeview-menu">
+                                                <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
+                                                <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="../../documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
+                        <li class="header">LABELS</li>
+                        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
+                        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
+                        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+
+            </ul>
+     #}
+        </section>
+        <!-- /.sidebar -->
+
+    </aside>
+{% endif %}

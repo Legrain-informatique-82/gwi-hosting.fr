@@ -1,0 +1,33 @@
+{% extends 'Contact/Fancybox/base.html.twig' %}
+
+{% block body %}
+    <p>
+        Ci-dessous, vous trouverez votre code d'autorisation vous permettant de changer de registrar pour le domaine {{ ndd.name }}
+    </p>
+    <p>
+    Code : {{ ndd.authinfo }}
+    </p>
+    <script type="text/javascript">
+        /*
+        var pathArray = window.location.pathname.split( '/' );
+        var total = pathArray.length;
+        var idLine = pathArray[total-3];
+        var idContact = pathArray[total-2];
+        var valueContact = pathArray[total-1];
+        valueContact = valueContact.replace("%20", " ");
+        */
+
+
+        $(function () {
+
+            // Passer les élements de l'url vers toutes les listes et, supprimer le selected et ajouter le bon sur la liste que l'on a touché.
+            $(window.self.top.document).find('.ajaxSelect').append('<option value="'+idContact+'">'+valueContact+'</option>');
+
+            $(window.self.top.document).find("select[data-id='"+idLine+"'] option:selected").removeAttr('selected');
+            $(window.self.top.document).find("select[data-id='"+idLine+"'] option[value='"+idContact+"']").attr('selected','selected');
+
+            // On ferme l'iframe
+            parent.jQuery.fancybox.close();
+        });
+    </script>
+{% endblock %}

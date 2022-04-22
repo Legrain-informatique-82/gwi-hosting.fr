@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+                <h1>
+                    {{ h1 }}
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'flashMessage.html.twig' %}
+
+                <div class="well">
+                    <p>Pour vos utilisateurs<br/>Définissez une adresse d'accès personnalisée à votre compte agence.
+                        Grâce à elle, vos clients et futurs clients seront automatiquement rattachés à votre compte.</p>
+                </div>
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+
+                {{ form_row(form.options) }}
+
+                <div  id="opt1" class="row">
+
+                    <div class="col-xs-1">
+                        {{ form_widget(form.protocol1) }}
+                    </div>
+                    <div class="col-xs-3 dotRight">
+                        {{ form_widget(form.subdomain1) }}
+                    </div>
+
+                    <div class="col-xs-2">
+                        <div id="setOptions">
+                            {{ form_widget(form.domain1) }}
+                        </div>
+                    </div>
+                </div>
+                <div  id="opt2" class="row hide">
+
+                    <div class="col-xs-1">
+                        {{ form_widget(form.protocol2) }}
+                    </div>
+                    <div class="col-xs-3 dotRight">
+                        {{ form_widget(form.subdomain2) }}
+                    </div>
+
+                    <div class="col-xs-2">
+                        <div id="setOptions">
+                            {{ form_widget(form.domain2) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt20">
+                    {{ form_row(form.submit) }}
+                </div>
+
+                {{ form_end(form) }}
+
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

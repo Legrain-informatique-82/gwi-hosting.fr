@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <p>Associer une ville avec un code postal</p>
+
+
+
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+    <p>
+        {{ form_row(form.zipCodes) }}
+    </p>
+
+
+    {{ form_end(form) }}
+{% endblock %}

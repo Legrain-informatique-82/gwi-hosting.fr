@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    {{ h1 }}
+                </h1>
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'flashMessage.html.twig' %}
+
+
+                {% if cart.cgus %}
+                    <h3>Conditions générales de ventes</h3>
+                    <div class="well">
+                        <ul class="list-unstyled">
+                            {% for cgu in cart.cgus %}
+                                <li><label ><input type="checkbox" class="validCgu" value="valid"> Vous devez accepter les conditions générales de ventes suivantes : </label> <a href="{{ path("lecture-cgv",{'url':cgu.url}) }}" target="_blank">  {{ cgu.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                {#
+
+                Si legrain ou gestionnaire, possibilité de récupèrer les personnes pouvant payer.
+                S'il n'y a qu'un seul client dans le panier, on laisse le choix : compte de l'utilisateur ou, compte de son gestionnaire.
+                Si le panier est rempli par legrain, c'est le meme principe. SAuf si le client est un gestionnaire d'une autre agence ou on proposera alors :
+                compte du gestionnaire autre agence ou, compte Legrain.
+
+                Si Legrain passe une commande pour un client d'une agence tierce, il pourra choisir : Compte client, compte du gestionnaire, son compte
+
+
+                Si le panier concerne plusieurs clients, seul le compte du gestionnaire sera débité ( ou legrain).
+
+
+                #}
+                {% if cart.totalTTC  != 0 %}
+                    {% if is_granted('ROLE_AGENCE') %}
+                        <h3>
+                            Choix du payeur
+                        </h3>
+                        <div class="row">
+                            {% for line in cart.potentialPayer %}
+                                <div class="col-md-3">
+                                    <div class="box box-default">
+                                        <div class="box-header with-border">
+                                            {{ line.name }} {{ line.firstname }}
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+
+                                            <p>Total HT : {{ arrayNewTarifs[line.id].totalHt }} €<br/>
+                                            Total TVA : {{ arrayNewTarifs[line.id].totalTva }} €<br/>
+                                            Total TTC : {{ arrayNewTarifs[line.id].totalTTC }} €
+                                            </p>
+                                            <p>Solde :{% if line.solde < arrayNewTarifs[line.id].totalTTC %}<span class="text-danger">{% endif %} {{ line.solde }} €{% if line.solde < arrayNewTarifs[line.id].totalTTC %}</span>{% endif %}</p>
+                                            {% if line.solde < arrayNewTarifs[line.id].totalTTC %}
+                                                <p>
+                                                    <a href="{{ path('credit_and_pay',{'iduserwhopay':line.id}) }}" class="btn btn-default btn-lgr btn-lgr-euro fvalidcgu">{% if cart.totalTTC < 0 %}Recréditer{% else %}Créditer et payer{% endif %}</a>
+                                                </p>
+                                            {% else %}
+                                                <p>
+                                                    <a href="{{ path('submit_cart',{'iduserwhopay':line.id}) }}" class="btn btn-default btn-lgr btn-lgr-euro fvalidcgu">{% if cart.totalTTC < 0 %}Recréditer{% else %}Payer{% endif %}</a>
+                                                </p>
+                                            {% endif %}
+                                        </div><!-- /.box-body -->
+
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    {% else %}
+                        {% for line in cart.potentialPayer %}
+                            <div class="box box-default">
+                                <div class="box-header with-border">
+                                    {{ line.name }} {{ line.firstname }}
+                                </div><!-- /.box-header -->
+                                <div class="box-body">
+                                    <p>Solde :{% if line.solde < cart.totalTTC %}<span class="text-danger">{% endif %} {{ line.solde }} €{% if line.solde < cart.totalTTC %}</span>{% endif %}</p>
+                                    {% if line.solde < cart.totalTTC %}
+                                        <p>
+                                            <a href="{{ path('credit_and_pay',{'iduserwhopay':line.id}) }}" class="btn btn-default btn-lgr btn-lgr-euro fvalidcgu">{% if cart.totalTTC < 0 %}Recréditer{% else %}Créditer et payer{% endif %}</a>
+                                        </p>
+                                    {% else %}
+                                        <p>
+                                            <a href="{{ path('submit_cart',{'iduserwhopay':line.id}) }}" class="btn btn-default btn-lgr btn-lgr-euro fvalidcgu">{% if cart.totalTTC < 0 %}Recréditer{% else %}Payer{% endif %}</a>
+                                        </p>
+                                    {% endif %}
+                                </div><!-- /.box-body -->
+
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

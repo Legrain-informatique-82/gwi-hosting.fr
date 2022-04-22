@@ -1,0 +1,429 @@
+{% extends 'Public/base.html.twig' %}
+
+
+{% block body %}
+
+<div class="container">
+    {% include 'Public/header.html.twig' %}
+</div><!-- /.container -->
+
+<div id="content" class="container">
+    {% include 'flashMessage.html.twig' %}
+
+
+    <h1>
+        <img src="{{ asset('images/serveur.png') }}" alt="">
+        Réserver un serveur
+    </h1>
+
+    {{ form_start(form, {'attr': {'id': 'form_buy_server'}}) }}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Serveur mutualisable GWI</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row mt20">
+                <div class="col-md-3">
+                    <div class="row">
+                        <i class="col-xs-2 fa fa-database fa-3x grey"></i>
+                        <p class="col-xs-10">Nombre de base de données :<br/><b class="blue">Illimité</b></p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <i class="col-xs-2 fa fa-lock fa-3x grey"></i>
+                        <p class="col-xs-10">Accès administrateur unique :<br/><b class="blue">GIT / sftp</b></p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <i class="col-xs-2 fa fa-signal fa-3x grey"></i>
+                        <p class="col-xs-10">Accélérateur web :<br/><b class="blue">cache varnish</b></p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <i class="col-xs-2 fa fa-clock-o fa-3x grey"></i>
+                        <p class="col-xs-10">Gestionnaire de taches planifiées <br/><b class="blue">Anacron</b></p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <p>Quand vous créez un Serveur Mutualisé, Gwi-Hosting
+                    vous permet ensuite de créer un Produit d'Hébergement.</p>
+                <p>
+                    Ce Produit d'Hébergement pourra etre ensuite :
+                </p>
+                <ul>
+                    <li>Réservé par votre client (paiement en ligne possible)</li>
+                    <li>Renouveler par votre client (paiement en ligne possible)</li>
+                    <li>Associé à un nom de domaine avec la création de l'espace
+                        d'hébergement sur votre serveur mutualisé</li>
+                    <li>Votre client recevra les alertes Emails de fin d'échéances</li>
+                </ul>
+            </div>
+
+            {{ form_errors(form) }}
+            <div class="row mt20">
+                <div class="col-md-4 text-center"><b><i class="fa fa-cog fa-2x"></i> Paramètres</b></div>
+                <div class="col-md-4 text-center"><b><i class="fa fa-puzzle-piece fa-2x"></i> Votre sélection</b></div>
+                <div class="col-md-4 text-center"><b><i class="fa fa-eur fa-2x"></i> Tarifs</b> HT<br/><sub>pour la période sélectionnée</sub></div>
+            </div>
+            <div id="blocAchatServer">
+                <div class="row odd">
+                    <div class="col-md-4 text-center">{{ form_label(form.language) }}</div>
+                    <div class="col-md-4 text-center">{{ form_widget(form.language) }}</div>
+                    <div class="col-md-4 text-center blue">0€</div>
+                </div>
+                <div class="row" id="serveur-nbre-vhosts" data-val="{{ initPrixNbreVhosts }}" data-ajax="{{ path('js-get-price-nbre-vhosts') }}">
+
+                    <div class="col-md-4 text-center">{{ form_label(form.nbreVhosts) }}</div>
+                    <div class="col-md-4 text-center">{{ form_widget(form.nbreVhosts) }}</div>
+                    <div id="affiche-serveur-nbre-vhosts" class="col-md-4 text-center blue">{{ initPrixNbreVhosts }} €</div>
+                </div>
+
+                <div class="row odd"  id="serveur-hdd" data-val="{{ initPrixNbreVhosts }}" data-ajax="{{ path('js-get-price-hdd') }}">
+
+                    <div class="col-md-4 text-center">{{ form_label(form.partHdd) }}</div>
+                    <div class="col-md-4 text-center">{{ form_widget(form.partHdd) }}</div>
+                    <div id="affiche-serveur-hdd" class="col-md-4 text-center blue">{{ initPrixHdd }} €</div>
+                </div>
+                <div class="row"  id="serveur-save-auto" data-val="{{ initPrixSaveAuto }}" data-ajax="{{ path('js-get-price-save-auto') }}">
+
+                    <div class="col-md-4 text-center">{{ form_label(form.saveAuto) }}</div>
+                    <div class="col-md-4 text-center">{{ form_widget(form.saveAuto) }}</div>
+                    <div id="affiche-serveur-save-auto" class="col-md-4 text-center blue">{{ initPrixSaveAuto }} €</div>
+                </div>
+                <div class="row odd"  id="serveur-puissance" data-val="{{ initPrixPuissance }}" data-ajax="{{ path('js-get-price-puissance') }}">
+
+                    <div class="col-md-4 text-center">{{ form_label(form.puissance) }}</div>
+                    <div class="col-md-4">
+                        {{ form_widget(form.puissance) }}
+                        <ul id="rang-24" class="hideAll">
+                            <li>Trafic mensuel <strong>60Go</strong></li>
+                            <li>RAM <strong>256Mo</strong></li>
+                            <li>Coeur de processeurs <strong>1</strong></li>
+                            <li>Processus Php simultanés <strong>2</strong></li>
+                            <li>Connexion Mysql Simultanées <strong>16</strong></li>
+                        </ul>
+                        <ul id="rang-25" class="hideAll">
+                            <li>Trafic mensuel <strong>120Go</strong></li>
+                            <li>RAM <strong>512Mo</strong></li>
+                            <li>Coeur de processeurs <strong>2</strong></li>
+                            <li>Processus Php simultanés <strong>4</strong></li>
+                            <li>Connexion Mysql Simultanées <strong>32</strong></li>
+                            <li>Compatibilité SSL</li>
+
+                        </ul>
+                        <ul id="rang-26" class="hideAll">
+                            <li>Trafic mensuel <strong>250Go</strong></li>
+                            <li>RAM <strong>1024Mo</strong></li>
+                            <li>Coeur de processeurs <strong>3</strong></li>
+                            <li>Processus Php simultanés <strong>8</strong></li>
+                            <li>Connexion Mysql Simultanées <strong>64</strong></li>
+                            <li>Compatibilité SSL</li>
+
+                        </ul>
+                        <ul id="rang-27" class="hideAll">
+                            <li>Trafic mensuel <strong>500Go</strong></li>
+                            <li>RAM <strong>4096Mo</strong></li>
+                            <li>Coeur de processeurs <strong>4</strong></li>
+                            <li>Processus Php simultanés <strong>16</strong></li>
+                            <li>Connexion Mysql Simultanées <strong>128</strong></li>
+                            <li>Compatibilité SSL</li>
+
+                        </ul>
+                        <ul id="rang-28" class="hideAll">
+                            <li>Trafic mensuel <strong>1To</strong></li>
+                            <li>RAM <strong>16384Mo</strong></li>
+                            <li>Coeur de processeurs <strong>8</strong></li>
+                            <li>Processus Php simultanés <strong>32</strong></li>
+                            <li>Connexion Mysql Simultanées <strong>256</strong></li>
+                            <li>Compatibilité SSL</li>
+                        </ul>
+
+                    </div>
+                    <div id="affiche-serveur-puissance" class="col-md-4 text-center blue">{{ initPrixPuissance }} €</div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-md-offset-9">
+                    <div id="serveur-duree-abo">{{ form_row(form.lapsTimeInMonths) }}</div>
+                    <p>
+                        <strong class="blue">Tarif de base : </strong><span id="prix-serveur" data-prixmois="{% if server.minPriceHT %}{{ server.minPriceHT }}{% else %}{{ server.priceHT }}{% endif %}">{% if server.minPriceHT %}{{ server.minPriceHT }}{% else %}{{ server.priceHT }}{% endif %}</span> €
+                    </p>
+                    <p>
+                        <strong class="blue">Total : </strong><span id="prix-total">{% if server.minPriceHT %}{{ server.minPriceHT }}{% else %}{{ server.priceHT }}{% endif %}</span> € HT
+                    </p>
+
+                    {{ form_row(form.submit) }}
+
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+
+
+    </div><!-- /.container -->
+
+
+
+    {% include 'Public/footer.html.twig' %}
+
+
+
+
+
+    {% endblock %}
+
+
+
+
+
+    {#
+    {% extends 'Public/base.html.twig' %}
+
+
+    {% block body %}
+
+        <div class="container">
+            {% include 'Public/header.html.twig' %}
+        </div><!-- /.container -->
+
+        <div id="content" class="container">
+            {% include 'flashMessage.html.twig' %}
+
+
+            <h1>
+                <img src="{{ asset('images/serveur.png') }}" alt="">
+                Réserver un serveur mutualisable
+            </h1>
+
+            {{ form_start(form) }}
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Serveur mutualisable GWI</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+
+
+                        {{ form_errors(form) }}
+                        <div class="row">
+                            <div class="col-xs-3 col-xs-offset-9 text-center">Tarifs € HT <br/>pour la période sélectionnée </div>
+                        </div>
+                        <div class="col-xs-9">
+
+                            <table class="table table-condensed table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Caractèristiques de base</th>
+                                    <th>Valeur</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Langage / base de données</td>
+                                    <td>Php 5.6 / Mysql 5.5</td>
+                                </tr>
+                                <tr>
+                                    <td>Nombre de base de données</td>
+                                    <td>Illimité</td>
+                                </tr>
+                                <tr>
+                                    <td>Accès administrateur unique</td>
+                                    <td>GIT / sftp / console ssh</td>
+                                </tr>
+                                <tr>
+                                    <td>Accélérateur web</td>
+                                    <td>cache varnish</td>
+                                </tr>
+                                <tr>
+                                    <td>Gestionnaire de tâches planifiées</td>
+                                    <td>anacron</td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                            <div>
+                                <p>Quand vous créez un Serveur Mutualisé, Gwi-Hosting
+                                    vous permet ensuite de créer un Produit d'Hébergement.</p>
+                                <p>
+                                    Ce Produit d'Hébergement pourra etre ensuite :
+                                </p>
+                                <ul>
+                                    <li>Réservé par votre client (paiement en ligne possible)</li>
+                                    <li>Renouveler par votre client (paiement en ligne possible)</li>
+                                    <li>Associé à un nom de domaine avec la création de l'espace
+                                        d'hébergement sur votre serveur mutualisé</li>
+                                    <li>Votre client recevra les alertes Emails de fin d'échéances</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-9">
+                            <p>
+                                <b>Coût du serveur </b>
+                            </p>
+                        </div>
+                        <div class="col-xs-3 text-center">
+                            <span id="prix-serveur" data-prixmois="{% if server.minPriceHT %}{{ server.minPriceHT }}{% else %}{{ server.priceHT }}{% endif %}">{% if server.minPriceHT %}{{ server.minPriceHT }}{% else %}{{ server.priceHT }}{% endif %}</span> €
+                        </div>
+
+                    </div><!-- /.row -->
+
+                    <div class="row">
+                        <div  id="serveur-nbre-vhosts" class="col-xs-9" data-val="{{ initPrixNbreVhosts }}" data-ajax="{{ path('js-get-price-nbre-vhosts') }}">
+                            {{ form_row(form.nbreVhosts) }}
+                        </div>
+                        <div id="affiche-serveur-nbre-vhosts" class="col-xs-3 padding-top-30 text-center">{{ initPrixNbreVhosts }} €</div>
+                    </div><!-- /.row -->
+
+                    <div class="row">
+                        <div id="serveur-hdd" class="col-xs-9" data-val="{{ initPrixHdd }}" data-ajax="{{ path('js-get-price-hdd') }}">
+                            {{ form_row(form.partHdd) }}
+                        </div>
+                        <div id="affiche-serveur-hdd" class="col-xs-3 padding-top-30 text-center" ><p>{{ initPrixHdd }} €</p></div>
+                    </div><!-- /.row -->
+
+                    <div class="row">
+                        <div id="serveur-save-auto"  class="col-xs-9" data-val="{{ initPrixSaveAuto }}" data-ajax="{{ path('js-get-price-save-auto') }}">
+                            {{ form_row(form.saveAuto) }}
+                        </div>
+                        <div class="col-xs-3 padding-top-30 text-center" id="affiche-serveur-save-auto">{{ initPrixSaveAuto }} €</div>
+                    </div><!-- /.row -->
+
+                    <div class="row">
+                        <div id="serveur-puissance" class="col-xs-9" data-val="{{ initPrixPuissance }}" data-ajax="{{ path('js-get-price-puissance') }}">
+                            {{ form_row(form.puissance) }}
+
+                            <table class="table table-condensed table-striped">
+                                <thead>
+                                <tr class="text-center">
+                                    <th>Intitulé</th>
+                                    <th>RAM</th>
+                                    <th>Coeur de processeurs</th>
+                                    <th>Processus Php simultanés</th>
+                                    <th>Connexion Mysql Simultanées</th>
+                                    <th>Compatibilité SSL</th>
+                                    <th>Estimation nombre pages vues/mois</th>
+                                    <th>Trafic/mois</th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                <tr id="rang-24" class="hideAll" >
+                                    <td>S</td>
+                                    <td>256Mo</td>
+                                    <td>1</td>
+                                    <td>2</td>
+                                    <td>16</td>
+                                    <td>Non</td>
+                                    <td>300 000</td>
+                                    <td>60 Go</td>
+                                </tr>
+                                <tr id="rang-25" class="hideAll">
+                                    <td>M</td>
+                                    <td>512Mo</td>
+                                    <td>2</td>
+                                    <td>4</td>
+                                    <td>32</td>
+                                    <td>Oui</td>
+                                    <td>600 000</td>
+                                    <td>120 Go</td>
+                                </tr>
+                                <tr id="rang-26" class="hideAll">
+                                    <td>L</td>
+                                    <td>1024</td>
+                                    <td>3</td>
+                                    <td>8</td>
+                                    <td>64</td>
+                                    <td>Oui</td>
+                                    <td>1 200 000</td>
+                                    <td>250 Go</td>
+                                </tr>
+                                <tr id="rang-27" class="hideAll">
+                                    <td>XL</td>
+                                    <td>4096Mo</td>
+                                    <td>4</td>
+                                    <td>16</td>
+                                    <td>128</td>
+                                    <td>Oui</td>
+                                    <td> > 5 000 000</td>
+                                    <td>500 Go</td>
+                                </tr>
+                                <tr id="rang-28" class="hideAll">
+                                    <td>XXL</td>
+                                    <td>16384Mo</td>
+                                    <td>8</td>
+                                    <td>32</td>
+                                    <td>256</td>
+                                    <td>Oui</td>
+                                    <td> > 5 000 000</td>
+                                    <td>1 To</td>
+                                </tr>
+                                </tbody>
+
+                            </table>
+
+                        </div>
+                        <div id="affiche-serveur-puissance" class="col-xs-3 padding-top-30 text-center"><p>{{ initPrixPuissance }} €</p></div>
+                    </div><!-- /.row -->
+
+                    <div class="row">
+                        #}
+{# <div id="serveur-duree-abo" class="col-xs-8">
+                         {{ form_row(form.lapsTimeInMonths) }}
+                     </div>
+                     <div class="col-xs-4"></div>#}{#
+
+
+
+                    #}
+{#<div id="serveur-duree-abo" class="col-xs-offset-8 col-xs-4">#}{#
+
+                    #}
+{#{{ form_row(form.lapsTimeInMonths) }}#}{#
+
+                    #}
+{#</div>#}{#
+
+
+                    <div  class="col-xs-9 text-right padding-top-25">
+                        <b>Durée de reservation :</b>
+                    </div>
+                    <div id="serveur-duree-abo" class="col-xs-3">{{ form_row(form.lapsTimeInMonths) }}</div>
+
+                </div><!-- /.row -->
+
+
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-9">
+                        {{ form_row(form.submit) }}
+                    </div>
+                    <div class="col-xs-3 text-center">
+                        <p><b>Total : </b> <span id="prix-total">{% if server.minPriceHT %}{{ server.minPriceHT }}{% else %}{{ server.priceHT }}{% endif %}</span> € HT</p>
+                    </div>
+                </div><!-- /.row -->
+            </div>
+        </div>
+        {{ form_end(form) }}
+
+
+
+
+    </div><!-- /.container -->
+
+
+
+    {% include 'Public/footer.html.twig' %}
+
+
+
+
+
+{% endblock %}
+#}

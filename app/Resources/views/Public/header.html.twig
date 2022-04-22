@@ -1,0 +1,134 @@
+
+<div class="row">
+    <div class="col-md-6">
+        <a href="{{ path('public-homepage') }}">
+        <img src="{{ asset('images/logo.jpg') }}" alt="Gwi-hosting">
+        </a>
+    </div>
+    <div class="col-md-6">
+        <ul class="nav navbar-nav pull-right">
+        {% if app.user %}
+            {{ render(controller("AppBundle:Cart:getCart", {'iduser': app.user.user.id})) }}
+
+            {{ render(controller("AppBundle:AccountBalance:getAccountBalance", {'iduser': app.user.user.id})) }}
+
+                <!-- User Account: style can be found in dropdown.less -->
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-user"></i>
+                        <span class="hidden-xs">{{ app.user.user.email }}</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <!-- User image -->
+                        <li class="user-header">
+                            <i class="fa fa-user fa-3x"></i>
+
+                        </li>
+                        {#
+                        <!-- Menu Body -->
+                        <li class="user-body">
+                            <div class="col-xs-4 text-center">
+                                <a href="#">Followers</a>
+                            </div>
+                            <div class="col-xs-4 text-center">
+                                <a href="#">Sales</a>
+                            </div>
+                            <div class="col-xs-4 text-center">
+                                <a href="#">Friends</a>
+                            </div>
+                        </li>
+                        #}
+                        <!-- Menu Footer-->
+                        <li class="user-footer">
+                            {% if disableMenu is not defined %}
+
+                                <div class="pull-left">
+                                    <a href="{{ path('myprofile') }}" class="btn btn-default">
+                                        Mon profil
+                                    </a>
+                                    {% if is_granted("ROLE_AGENCE") %}
+                                        <a href="{{ path('myagency') }}" class="btn btn-default">
+                                            Mon agence
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                            <div class="pull-right">
+                                <a href="{{ path('logout') }}" class="btn btn-primary btn-flat" title="Se déconnecter">
+                                    <i class="fa fa-power-off fa-2x"></i>
+
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+        {% else %}
+            {{ render(controller("AppBundle:Cart:getCartWithoutConnection",{'route':app.request.get('_route')})) }}
+        {% endif %}
+        </ul>
+    </div>
+</div>
+<div class="row">
+<nav id="topmenu" class="navbar navbar-default">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-menu-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-menu-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li {% if app.request.get('_route') == 'public-homepage' %} class="active" {% endif %}><a href="{{ path('public-homepage') }}">Accueil {% if app.request.get('_route') == 'public-homepage' %} <span class="sr-only">(current)</span> {% endif %}</a></li>
+                <li {% if app.request.get('_route') == 'public-buy-ndd' %} class="active" {% endif %}><a href="{{ path('public-buy-ndd') }}">Réserver un nom de domaine{% if app.request.get('_route') == 'public-buy-ndd' %} <span class="sr-only">(current)</span> {% endif %}</a></li>
+                {% if app.user ==null or is_granted("ROLE_LEGRAIN")==false or app.user.user.agency.facturationBylegrain == false  %}
+                    <li {% if app.request.get('_route') == 'public-buy-server' %} class="active" {% endif %}><a href="{{ path('public-buy-server') }}">Réserver un serveur{% if app.request.get('_route') == 'public-buy-server' %} <span class="sr-only">(current)</span> {% endif %}</a></li>
+                {% else %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Réserver un serveur <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li {% if app.request.get('_route') == 'public-buy-server' %} class="active" {% endif %}><a href="{{ path('public-buy-server') }}">Serveur personnel Gwi-hosting{% if app.request.get('_route') == 'public-buy-server' %} <span class="sr-only">(current)</span> {% endif %}</a></li>
+                            <li {% if app.request.get('_route') == 'public-buy-server-mutualisable' %} class="active" {% endif %}><a href="{{ path('public-buy-server-mutualisable') }}">Serveur mutualisable{% if app.request.get('_route') == 'public-buy-server-mutualisable' %} <span class="sr-only">(current)</span> {% endif %}</a></li>
+
+
+                        </ul>
+                    </li>
+                {% endif %}
+                {{ render(controller("AppBundle:HebergementMutualise:getMenuHebergementMutualise",{'route':app.request.get('_route')})) }}
+
+
+                {#
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">One more separated link</a></li>
+                    </ul>
+                </li>
+                #}
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                {% if app.user %}
+                <li><a href="{{ path('homepage') }}">Mon compte</a></li>
+                {% else %}
+                    <li><a class="btn-connexion" href="{{ path('homepage') }}">Se connecter</a></li>
+                    <li><a class="btn-inscription" href="{{ path('register') }}">S'inscrire</a></li>
+                {% endif %}
+
+
+
+            </ul>
+
+        </div><!-- /.navbar-collapse -->
+</nav>
+</div>

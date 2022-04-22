@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <img src="{{ asset('images/serveur.png') }}" alt="">
+                    {{ h1 }}
+                </h1>
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'flashMessage.html.twig' %}
+                <div>
+                    <p>
+                            <a class="btn btn-default btn-lgr btn-lgr-add-product" href="{{ path('create_heber_mutualises_admin') }}">
+                            Ajouter un produit hebergement mutualisé
+                        </a>
+                    </p>
+                </div>
+
+                <div class="mt20">
+                    {% for l in list %}
+
+                        {#affichage en table#}
+                        {% if loop.first %}
+                            <table class="dataTable table table-striped table-hover table-condensed" width="100%">
+                            <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Prix ht/mois</th>
+                                <th>Serveur</th>
+                                <th>Réservable par le client</th>
+                                <th>Renouvelable par le client</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                        {% endif %}
+                        <tr>
+                            <td>{{ l.name }}</td>
+                            <td data-order="{{ l.priceHt }}">{{ l.priceHt }} €</td>
+                            <td>{{ l.instance.name }}</td>
+                            <td data-order="{{ l.bookableByCustomer }}">{% if l.bookableByCustomer %}Oui{% else %}Non{% endif %}</td>
+                            <td data-order="{{ l.renewByCustomer }}">{% if l.renewByCustomer %}Oui{% else %}Non{% endif %}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn-warning btn" href="{{ path('update_heber_mutualises_admin',{'idProduit':l.id}) }}" title="Editer"><i class="fa fa-pencil"></i></a>
+                                    <a class="btn-danger btn" href="{{ path('remove_heber_mutualises_admin',{'idProduit':l.id}) }}" title="Editer"><i class="fa fa-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% if loop.last %}
+                            </tbody>
+                            </table>
+                        {% endif %}
+                    {% else %}
+                        <p>
+                            Vous ne possèdez actuellement aucun produit hébergement.
+                        </p>
+                    {% endfor %}
+                </div>
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+        {% include 'footer.html.twig' %}
+
+    </div><!-- ./wrapper -->
+{% endblock %}

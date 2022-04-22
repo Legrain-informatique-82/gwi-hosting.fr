@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <p>Frm</p>
+    <p>{{ result }}</p>
+
+
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+<p>
+    {{ form_row(form.name) }}
+</p>
+    <p>
+    {{ form_row(form.save) }}
+    </p>
+
+    {{ form_end(form) }}
+{% endblock %}

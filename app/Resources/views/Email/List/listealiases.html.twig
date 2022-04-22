@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    Liste des alias de la boite e-mail : {{ emailAddress }}
+
+                </h1>
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                {% include 'flashMessage.html.twig' %}
+
+
+                <div class="well">
+                    <p>
+                        {% if type == 'super_admin' %}
+                        <a class="btn btn-primary" href="{{ path("add_alias_mailbox_super_admin",{'idagency':idagency,'iduser':iduser,'ndd':ndd,'emailAddress':emailAddress})  }}">
+                        {% elseif type == 'admin' %}
+                        <a class="btn btn-primary" href="{{ path("add_alias_mailbox_admin",{'iduser':iduser,'ndd':ndd,'emailAddress':emailAddress})  }}">
+                            {% else %}
+                            <a class="btn btn-primary" href="{{ path("add_alias_mailbox_user",{'ndd':ndd,'emailAddress':emailAddress})  }}">
+                            {% endif %}
+                            <i class="fa fa-plus"></i> Ajouter un alias
+                        </a>
+                    </p>
+                </div>
+
+                <table class="dataTable table table-striped table-hover table-condensed" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Alias</th>
+                        <th>Supprimer</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for alias in aliases %}
+                        <tr>
+                            <td>{{ alias }}@{{ ndd }}</td>
+                            <td>
+                                {% if type == 'super_admin' %}
+                                    <a href="{{ path("delete_alias_mailbox_super_admin",{'idagency':idagency,'iduser':iduser,'ndd':ndd,'emailAddress':emailAddress,'alias': alias})  }}" title="Supprimer" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                                {% elseif type == 'admin' %}
+                                <a href="{{ path("delete_alias_mailbox_admin",{'iduser':iduser,'ndd':ndd,'emailAddress':emailAddress,'alias': alias})  }}" title="Supprimer" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                                {% else %}
+                                    <a href="{{ path("delete_alias_mailbox_user",{'ndd':ndd,'emailAddress':emailAddress,'alias': alias})  }}" title="Supprimer" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                                {% endif %}
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+
+
+
+
+
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

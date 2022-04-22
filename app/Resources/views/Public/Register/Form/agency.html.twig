@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    <div class="login-box">
+        <div class="login-logo">
+            <b>GWI</b>Hosting</a>
+        </div><!-- /.login-logo -->
+        <div class="login-box-body">
+
+            <h1 class="h4">Formulaire d'inscription des agences web</h1>
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
+            <div class="hidden">
+                {{ form_row(form.blabla) }}
+            </div>
+            {{ form_end(form) }}
+            <a href="https://www.gwi-hosting.fr">Retour vers Gwi-hosting</a>
+        </div>
+    </div>
+
+
+
+
+
+{% endblock %}

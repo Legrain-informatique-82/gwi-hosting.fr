@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+                <h1>
+                    {{  h1 }}
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                {% include 'flashMessage.html.twig' %}
+
+                <p class="well">
+                    Le répondeur ne répondra qu'une seule fois par jour et par adresse e-mail à un même expéditeur. Le répondeur ne fonctionne pas entre boîtes mail du même domaine. Il ne fonctionne pas non plus sur les alias.
+
+                    <br/>Si vous l'activez pour le jour même, il y aura un délais d'activation pouvant durer une heure.
+
+                    <br/> Pour désactiver le répondeur, il vous suffit de mettre la date du jour comme date de fin, le répondeur se désactivera en une heure maximum.
+
+
+</p>
+
+
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+                {{ form_end(form) }}
+
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

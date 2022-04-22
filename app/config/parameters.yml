@@ -1,0 +1,21 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: symfony
+    database_user: root
+    database_password: null
+    mailer_transport: smtp
+    mailer_host: mail.gandi.net
+    mailer_user: app@gwi-hosting.fr
+    mailer_password: pwdlgr010
+    secret: 783c469dfcfada00350a9fe25bb6c3a4b181b8fb
+    wsdl_gwi_hosting_security: 'http://api.gwi-hosting.fr/api/soap/gwiHostingSecurity?wsdl'
+    wsdl_gwi_hosting: 'http://api.gwi-hosting.fr/api/soap/gwiHosting?wsdl'
+    twitter_oauth_access_token: 4507102241-bntFZEaVsPpJpJArYUu2vUjJe9Cx1Bkv2UN5Xwl
+    twitter_oauth_access_token_secret: hcH76hhfVzTxyQrrfiKJdzwUhcnSt37JEzStr56TwO6U8
+    twitter_consumer_key: 3pjEkRDmLXHU3Dq3OR4KhAoNC
+    twitter_consumer_secret: vAUCYVC68GKpHI7BADInGTMQbDDoCyOEHGg1vY5CF3S7jdx2iL
+    developpement: false
+    url_paiement_externalise: 'https://paiement.gwi-hosting.fr/cb/'
+    logos_directory: /var/www/app.gwi-hosting.fr/web/web/images/logos

@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <img src="{{ asset('images/intervention.png') }}" alt="">
+                    {{ h1 }}
+
+                </h1>
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'flashMessage.html.twig' %}
+
+                {% include 'Ndd/Nav/options.html.twig'  with {'active': 'intervention','ndd':ndd, 'type':type,'idagency':idagency,'iduser':iduser} only %}
+                <div class="mt20">
+                    <table class="dataTable table table-striped table-hover table-condensed mt20" width="100%">
+
+                        <thead>
+                        <tr>
+                            <th>Non lu</th>
+
+                            <th>Créé le</th>
+                            <th>Libellé</th>
+                            <th>Status</th>
+                            <th>Détail</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for int in interventions %}
+                            {#[{"name":"Intrusion dans le site davril-formation-securite.com",
+                            "creation_time":"2015-10-24T11:28:33Z","status":"RESOLVED","last_change_time":"2015-10-24T11:29:00Z","0":"isRead","1":true,"id":2}]#}
+                            <tr>
+                                <td class="text-success" data-order="{{ int.isRead }}">{% if int.isRead == false %} <i class="fa fa-bell"></i>{% endif %} </td>
+
+                                <td  data-order="{{ int.creation_time }}">{{ int.creation_time | date('d/m/Y') }}</td>
+                                <td>{{ int.name }} </td>
+                                <td data-order="{{ int.status }}">{% if  int.status == 'RESOLVED'  %} <span class="text-success">Résolu</span>{% else %}<span class="text-danger">En cours</span>{% endif %}        </td>
+                                <td>
+                                    {% if type == 'super_admin' %}
+                                        <a href="{{ path('intervention_d_super_admin',{'iduser':iduser,'idagency':idagency,'ndd':ndd,idbug:int.id}) }}" class="btn btn-default" title="Détail de l'intervention">
+                                            <i class="fa fa-file"></i>
+                                        </a>
+                                    {% elseif type=="admin" %}
+                                        <a href="{{ path('intervention_d_admin',{'iduser':iduser,'ndd':ndd,idbug:int.id}) }}" class="btn btn-default" title="Détail de l'intervention">
+                                            <i class="fa fa-file"></i>
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ path('intervention_d_user',{'ndd':ndd,idbug:int.id}) }}" class="btn btn-default" title="Détail de l'intervention">
+                                            <i class="fa fa-file"></i>
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <img src="{{ asset('images/renouvellement.png') }}" alt="">
+                    {{ h1 }}
+                </h1>
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                {% include 'flashMessage.html.twig' %}
+
+
+
+
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        {{ form_start(form) }}
+                        <table class="dataTable table table-striped table-hover table-condensed" width="100%">
+                            <thead>
+                            <tr>
+                                <th>Expiration</th>
+                                <th>Renouveler</th>
+                                <th>Type</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for service in services %}
+                                <tr>
+                                    <td data-order="{{ service.date }}">
+                                        {% if service.date < in2months  %}<strong class="{% if service.date < today  %}text-danger{% else %}text-primary{% endif %}">{% endif %}
+                                            {{ service.date | date('d/m/Y') }}
+                                            {% if service.date < in2months   %}</strong>{% endif %}
+                                    </td>
+                                    <td>
+                                        {% if  service.type == 'ndd' %}
+                                            {{ form_row(attribute(form, 'ndd_'~service.id ~'_'~service.idproduct)) }}
+
+                                        {% elseif  service.type == 'instance' %}
+                                            {{ form_row(attribute(form, 'server_'~service.id ~'_'~service.idproduct)) }}
+                                        {% elseif  service.type == 'hebermutu' %}
+                                            {{ form_row(attribute(form, 'hebermutu_'~service.id ~'_'~service.idproduct)) }}
+                                        {% endif %}
+                                    </td>
+
+                                    <td>{% if  service.type == 'ndd' %}Nom de domaine{% elseif service.type == 'instance' %}Serveur GWI{% elseif service.type == 'hebermutu' %}Hébergement mutualisé{% endif %}</td>
+
+
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

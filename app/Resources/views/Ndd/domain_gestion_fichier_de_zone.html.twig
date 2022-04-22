@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <img src="{{ asset('images/domaine.png') }}" alt="">
+                    Gestion du fichier de zone de : {{ ndd }}
+                </h1>
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'flashMessage.html.twig' %}
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+                <div id="tabs-with-active" class="nav nav-tabs nav-justified">
+                    <ul>
+                        {% for v in headers %}
+
+                            <li {% if v.current %}id="tabActive"{% endif %} data-index="{{ loop.index0 }}"><a  href="#v_{{ v.id }}">Version  {{ v.id }} {%  if v.current%} (active) {% endif %}</a></li>
+                        {% endfor %}
+
+
+                    </ul>
+                    <div class="box">
+                        {% for v in headers %}
+                            <div id="v_{{ v.id }}">
+
+                                {{ form_row(attribute(form, 'v_'~v.id) ) }}
+
+                                <div class="row">
+                                    {% if vActive == v.id %}
+                                        <div class="col-xs-2">
+                                            {{ form_row(attribute(form, 'save_active') ) }}
+
+                                        </div>
+                                        <div class="col-xs-1">
+                                            {{ form_row(attribute(form, 'save') ) }}
+                                        </div>
+                                    {% else %}
+                                        <div class="col-xs-1">{{ form_row(attribute(form, 'active_'~v.id) ) }}</div>
+                                        <div class="col-xs-1">{{ form_row(attribute(form, 'delete_'~v.id) ) }}</div>
+
+
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+{{ form_end(form) }}
+<p>
+    {% if type=='super_admin'  %}
+        <a href="{{ path('ndd_super_admin',{'idagency':idagency,'iduser':iduser,'ndd':ndd}) }}" class="btn btn-default">Retour à la fiche</a>
+    {%  elseif type=='admin' %}
+        <a href="{{ path('ndd_admin',{'iduser':iduser,'ndd':ndd}) }}" class="btn btn-default">Retour à la fiche</a>
+    {% else %}
+        <a href="{{ path('ndd_user',{'ndd':ndd}) }}" class="btn btn-default">Retour à la fiche</a>
+    {% endif %}
+
+</p>
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}

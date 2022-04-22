@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        {% include 'header.html.twig' %}
+        <!-- =============================================== -->
+        {% include 'sidebar.html.twig' %}
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    {{ h1 }}
+
+                </h1>
+
+                {% include 'breadcrumb.html.twig'  with {'breadcrumb': breadcrumb} only %}
+
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'flashMessage.html.twig' %}
+
+                <table class="table table-striped table-hover table-condensed" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Supprimer</th>
+                        <th>Total HT ( au prorata)</th>
+                        <th>Taux TVA</th>
+                        <th>Total TTC</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th colspan="3">&nbsp;</th>
+                        <th>Total HT  : </th>
+                        <th>{{ cart.totalHt }} €</th>
+                    </tr>
+                    <tr>
+                        <th colspan="3">&nbsp;</th>
+                        <th>Total TVA  : </th>
+                        <th>{{ cart.totalTax }} €</th>
+                    </tr>
+                    <tr>
+                        <th colspan="3">&nbsp;</th>
+                        <th>Total TTC  : </th>
+                        <th>{{ cart.totalTTC }} €</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    {% for line in cart.cartLines %}
+                    <tr>
+                        <td>{{ line.productName }}</td>
+                        <td><a href="{{ path('remove_item_cart',{'idline':line.id}) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a></td>
+                        <td>{{ line.totalHt }} €</td>
+                        <td>{{ line.percentTax * 100 }} %</td>
+                        <td>{{ line.totalTTC }} €</td>
+                    </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6">
+                                Votre panier ne contient aucun article.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+
+
+
+                {# btn poursuivre. #}
+                <a href="{{ path("next_step_cart") }}" class="btn btn-success">Pousuivre</a>
+
+
+
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        {% include 'footer.html.twig' %}
+
+
+
+
+    </div><!-- ./wrapper -->
+{% endblock %}
